@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/Icons">
+        <file alias="arrow">Icons/arrow.png</file>
+        <file alias="edit">Icons/document.png</file>
+        <file alias="folder">Icons/folder.png</file>
+        <file alias="options">Icons/gear.png</file>
+        <file alias="home">Icons/globe.png</file>
+    </qresource>
+</RCC>

@@ -1,4 +1,8 @@
 <RCC>
-    <qresource prefix="WikiForCoolKids">
+    <qresource prefix="/Styles">
+        <file>Resources/wiki_styles.qss</file>
+    </qresource>
+    <qresource prefix="/Icons">
+        <file>Resources/wiki_icons.qrc</file>
     </qresource>
 </RCC>

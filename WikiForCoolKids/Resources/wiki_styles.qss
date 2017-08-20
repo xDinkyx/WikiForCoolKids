@@ -1,0 +1,29 @@
+/* Button styling */
+/* ------------------------------------------ */
+QPushButton
+{ 
+    border: none;
+
+    color: #DDDDDD;
+    background-color: #54606E;
+}
+QPushButton:hover
+{
+    background-color: #24AFB2;
+}
+QPushButton:pressed
+{
+    background-color: #333A42;
+}
+/* Toolbar */
+QWidget#ToolBar > QPushButton
+{
+    min-width: 34px;
+    max-width: 34px;
+    min-height: 34px;
+    max-height: 34px;
+}
+QPushButton#SettingsButton
+{
+    border-image: url(:/Icons/options);
+}

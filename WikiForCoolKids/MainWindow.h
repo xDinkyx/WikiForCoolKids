@@ -2,6 +2,8 @@
 
 #include <QtWidgets/QMainWindow>
 
+class QLayout;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -10,4 +12,10 @@ public:
     MainWindow(QWidget *parent = Q_NULLPTR);
 
 private:
+    void setupGUI();
+    QWidget* createToolBar();
+    QWidget* createMainWidget();
+
+    void loadStyle();
+
 };
