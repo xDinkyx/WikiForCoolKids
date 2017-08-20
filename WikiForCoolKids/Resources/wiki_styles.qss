@@ -15,15 +15,38 @@ QPushButton:pressed
 {
     background-color: #333A42;
 }
+QPushButton:disabled
+{
+    background-color: #7C8997;
+}
 /* Toolbar */
 QWidget#ToolBar > QPushButton
 {
-    min-width: 34px;
-    max-width: 34px;
-    min-height: 34px;
-    max-height: 34px;
+    min-width:  40px;
+    max-width:  40px;
+    min-height: 40px;
+    max-height: 40px;
+
+    background-position: center;
+    background-repeat: none;
+}
+QPushButton#BackButton
+{
+    background-image: url(:/Icons/back);
+}
+QPushButton#HomeButton
+{
+    background-image: url(:/Icons/home);
+}
+QPushButton#NextButton
+{
+    background-image: url(:/Icons/next);
+}
+QPushButton#EditButton
+{
+    background-image: url(:/Icons/edit);
 }
 QPushButton#SettingsButton
 {
-    border-image: url(:/Icons/options);
+    background-image: url(:/Icons/options);
 }
