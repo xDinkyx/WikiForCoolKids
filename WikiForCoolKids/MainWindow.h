@@ -18,4 +18,6 @@ private:
 
     void loadStyle();
 
+    void showPage(const QString& pageName);
+    QString loadPage(const QString& pageName);
 };

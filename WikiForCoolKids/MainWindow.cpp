@@ -10,11 +10,24 @@
 
 #include <QDebug>
 
+#include "../cpp-markdown/markdown.h"
+#include <iostream>
+#include <fstream>
+#include <sstream>
+
+namespace
+{
+    const QString WIKI_FOLDER_LOCATION("C:/Users/Dimitri/Dropbox/ErdaWiki/");
+    const QString WIKI_FILE_EXTENSION(".txt");
+}
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     setObjectName("WikiMainWindow");
     setupGUI();
+
+    loadPage("Home");
 }
 
 void MainWindow::setupGUI()
@@ -89,4 +102,41 @@ void MainWindow::loadStyle()
     QFile style_file(qss_location);
     style_file.open(QFile::ReadOnly);
     setStyleSheet(style_file.readAll());
+}
+
+void MainWindow::showPage(const QString & pageName)
+{
+    QString page_file_name = WIKI_FOLDER_LOCATION + pageName + WIKI_FILE_EXTENSION;
+
+    QString page_html = loadPage(page_file_name);
+}
+
+QString MainWindow::loadPage(const QString& pageName)
+{
+    std::string file_path = pageName.toStdString();
+
+    std::ifstream input_file_stream;
+    std::istream* input_stream = &std::cin;
+    if (!file_path.empty())
+    {
+        qDebug() << "Opening page '" << pageName << "'...";
+        input_file_stream.open(file_path.c_str());
+        if (!input_file_stream)
+        {
+            qDebug() << "Error: Can't open page file.";
+            return;
+        }
+        else
+        {
+            qDebug() << "Opened page file.";
+            input_stream = &input_file_stream;
+        }
+    }
+
+    markdown::Document markdown_document;
+    markdown_document.read(*input_stream);
+
+    std::stringstream output_string_stream;
+    markdown_document.write(output_string_stream);
+    return QString::fromStdString(output_string_stream.str());
 }
