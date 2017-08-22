@@ -39,13 +39,6 @@ ipch/
 *.VC.VC.opendb
 
 
-# Visual Studio Project
-*.vcxproj
-
-
-*.sln
-
-
 #Qt
 *.filters
 
