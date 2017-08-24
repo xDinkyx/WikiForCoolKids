@@ -17,16 +17,21 @@ namespace
 {
     const QString WIKI_FOLDER_LOCATION("C:/Users/Dimitri/Dropbox/ErdaWiki/");
     const QString WIKI_FILE_EXTENSION(".txt");
+
+    const QString HOME_PAGE("Home");
 }
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
+    , m_back_button(nullptr)
+    , m_home_button(nullptr)
+    , m_forward_button(nullptr)
     , m_html_view(nullptr)
 {
     setObjectName("WikiMainWindow");
     setupGUI();
 
-    showPage("Home");
+    goToHomePage();
 }
 
 void MainWindow::setupGUI()
@@ -41,15 +46,17 @@ void MainWindow::setupGUI()
 QWidget* MainWindow::createToolBar()
 {
 
-    QPushButton* back_button = new QPushButton();
-    back_button->setObjectName("BackButton");
-    back_button->setEnabled(false);
+    m_back_button = new QPushButton();
+    m_back_button->setObjectName("BackButton");
+    connect(m_back_button, &QPushButton::clicked, this, &MainWindow::goToNextPage);
 
-    QPushButton* home_button = new QPushButton();
-    home_button->setObjectName("HomeButton");
+    m_home_button = new QPushButton();
+    m_home_button->setObjectName("HomeButton");
+    connect(m_home_button, &QPushButton::clicked, this, &MainWindow::goToHomePage);
 
-    QPushButton* next_button = new QPushButton();
-    next_button->setObjectName("NextButton");
+    m_forward_button = new QPushButton();
+    m_forward_button->setObjectName("NextButton");
+    connect(m_forward_button, &QPushButton::clicked, this, &MainWindow::goToPreviousPage);
 
     QPushButton* edit_button = new QPushButton();
     edit_button->setObjectName("EditButton");
@@ -84,6 +91,9 @@ QWidget* MainWindow::createToolBar()
 QWidget* MainWindow::createMainWidget()
 {
     m_html_view = new QTextBrowser();
+    m_html_view->setOpenLinks(false);
+    m_html_view->setOpenExternalLinks(false);
+    connect(m_html_view, &QTextBrowser::anchorClicked, this, &MainWindow::urlChanged);
 
     QVBoxLayout* main_layout = new QVBoxLayout();
     main_layout->setContentsMargins(0, 0, 0, 0);
@@ -93,6 +103,13 @@ QWidget* MainWindow::createMainWidget()
     main_widget->setLayout(main_layout);
 
     return main_widget;
+}
+
+void MainWindow::updateButtonsEnabled()
+{
+    m_back_button->setEnabled(false);
+    m_home_button->setEnabled(m_current_page != HOME_PAGE);
+    m_forward_button->setEnabled(false);
 }
 
 void MainWindow::loadStyle()
@@ -107,10 +124,33 @@ void MainWindow::loadStyle()
     setStyleSheet(style_file.readAll());
 }
 
+void MainWindow::goToHomePage()
+{
+    showPage(HOME_PAGE);
+}
+
+void MainWindow::goToNextPage()
+{
+
+}
+
+void MainWindow::goToPreviousPage()
+{
+
+}
+
+void MainWindow::urlChanged(const QUrl& url)
+{
+    qDebug() << "Opening link: " << url.toString();
+}
+
 void MainWindow::showPage(const QString & pageName)
 {
-    QString page_file_path = WIKI_FOLDER_LOCATION + pageName + WIKI_FILE_EXTENSION;
+    m_current_page = pageName;
 
+    QString page_file_path = WIKI_FOLDER_LOCATION + pageName + WIKI_FILE_EXTENSION;
     QString page_html = WikiPageLoader::loadPageHTML(page_file_path);
     m_html_view->setHtml(page_html);
+
+    updateButtonsEnabled();
 }
