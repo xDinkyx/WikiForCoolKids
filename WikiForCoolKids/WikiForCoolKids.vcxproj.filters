@@ -66,6 +66,9 @@
     <ClCompile Include="..\cpp-markdown\markdown-tokens.cpp">
       <Filter>cpp-markdown</Filter>
     </ClCompile>
+    <ClCompile Include="WikiPageLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="WikiForCoolKids.qrc">
@@ -112,6 +115,9 @@
     </ClInclude>
     <ClInclude Include="..\cpp-markdown\markdown-tokens.h">
       <Filter>cpp-markdown</Filter>
+    </ClInclude>
+    <ClInclude Include="WikiPageLoader.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

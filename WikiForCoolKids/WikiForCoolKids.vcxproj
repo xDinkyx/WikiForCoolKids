@@ -88,6 +88,7 @@
     <ClCompile Include="GeneratedFiles\Release\moc_MainWindow.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="WikiPageLoader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainWindow.cpp" />
   </ItemGroup>
@@ -144,6 +145,7 @@
   <ItemGroup>
     <ClInclude Include="..\cpp-markdown\markdown-tokens.h" />
     <ClInclude Include="..\cpp-markdown\markdown.h" />
+    <ClInclude Include="WikiPageLoader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
