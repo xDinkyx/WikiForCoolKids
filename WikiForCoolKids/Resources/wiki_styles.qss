@@ -50,3 +50,10 @@ QPushButton#SettingsButton
 {
     background-image: url(:/Icons/options);
 }
+
+/* HTML Viewer styling */
+/* ------------------------------------------ */
+QTextBrowser
+{
+    border: none;
+}

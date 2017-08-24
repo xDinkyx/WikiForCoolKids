@@ -83,6 +83,7 @@ QWidget* MainWindow::createMainWidget()
     m_html_view = new QTextBrowser();
 
     QVBoxLayout* main_layout = new QVBoxLayout();
+    main_layout->setContentsMargins(0, 0, 0, 0);
     main_layout->addWidget(m_html_view);
 
     QWidget* main_widget = new QWidget();
