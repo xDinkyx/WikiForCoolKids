@@ -3,6 +3,7 @@
 #include <QtWidgets/QMainWindow>
 
 class QLayout;
+class QTextBrowser;
 
 class MainWindow : public QMainWindow
 {
@@ -11,6 +12,8 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = Q_NULLPTR);
 
+    void showPage(const QString& pageName);
+
 private:
     void setupGUI();
     QWidget* createToolBar();
@@ -18,6 +21,6 @@ private:
 
     void loadStyle();
 
-    void showPage(const QString& pageName);
-    QString loadPage(const QString& pageName);
+
+    QTextBrowser* m_html_view;
 };

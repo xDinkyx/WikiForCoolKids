@@ -1,19 +1,17 @@
 #include "MainWindow.h"
 
+#include "WikiPageLoader.h"
+
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QHBoxLayout>
 
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QTextBrowser>
 
 #include <QFile>
 
 #include <QDebug>
-
-#include "../cpp-markdown/markdown.h"
-#include <iostream>
-#include <fstream>
-#include <sstream>
 
 namespace
 {
@@ -23,11 +21,12 @@ namespace
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
+    , m_html_view(nullptr)
 {
     setObjectName("WikiMainWindow");
     setupGUI();
 
-    loadPage("Home");
+    showPage("Home");
 }
 
 void MainWindow::setupGUI()
@@ -81,10 +80,10 @@ QWidget* MainWindow::createToolBar()
 
 QWidget* MainWindow::createMainWidget()
 {
-    QLabel* temp_label = new QLabel("Text goes here");
+    m_html_view = new QTextBrowser();
 
     QVBoxLayout* main_layout = new QVBoxLayout();
-    main_layout->addWidget(temp_label);
+    main_layout->addWidget(m_html_view);
 
     QWidget* main_widget = new QWidget();
     main_widget->setLayout(main_layout);
@@ -106,37 +105,8 @@ void MainWindow::loadStyle()
 
 void MainWindow::showPage(const QString & pageName)
 {
-    QString page_file_name = WIKI_FOLDER_LOCATION + pageName + WIKI_FILE_EXTENSION;
+    QString page_file_path = WIKI_FOLDER_LOCATION + pageName + WIKI_FILE_EXTENSION;
 
-    QString page_html = loadPage(page_file_name);
-}
-
-QString MainWindow::loadPage(const QString& pageName)
-{
-    std::string file_path = pageName.toStdString();
-
-    std::ifstream input_file_stream;
-    std::istream* input_stream = &std::cin;
-    if (!file_path.empty())
-    {
-        qDebug() << "Opening page '" << pageName << "'...";
-        input_file_stream.open(file_path.c_str());
-        if (!input_file_stream)
-        {
-            qDebug() << "Error: Can't open page file.";
-            return;
-        }
-        else
-        {
-            qDebug() << "Opened page file.";
-            input_stream = &input_file_stream;
-        }
-    }
-
-    markdown::Document markdown_document;
-    markdown_document.read(*input_stream);
-
-    std::stringstream output_string_stream;
-    markdown_document.write(output_string_stream);
-    return QString::fromStdString(output_string_stream.str());
+    QString page_html = WikiPageLoader::loadPageHTML(page_file_path);
+    m_html_view->setHtml(page_html);
 }
