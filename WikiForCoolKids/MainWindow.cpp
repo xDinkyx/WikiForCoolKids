@@ -93,6 +93,7 @@ QWidget* MainWindow::createMainWidget()
     m_html_view = new QTextBrowser();
     m_html_view->setOpenLinks(false);
     m_html_view->setOpenExternalLinks(false);
+    m_html_view->setSearchPaths(QStringList() << WIKI_FOLDER_LOCATION);
     connect(m_html_view, &QTextBrowser::anchorClicked, this, &MainWindow::urlChanged);
 
     QVBoxLayout* main_layout = new QVBoxLayout();
