@@ -40,35 +40,38 @@ void MainWindow::setupGUI()
 
 QWidget* MainWindow::createToolBar()
 {
-    QHBoxLayout* tool_bar_layout = new QHBoxLayout();
-    tool_bar_layout->setContentsMargins(0, 0, 0, 0);
-    tool_bar_layout->setSpacing(0);
 
     QPushButton* back_button = new QPushButton();
     back_button->setObjectName("BackButton");
     back_button->setEnabled(false);
-    tool_bar_layout->addWidget(back_button, 0, Qt::AlignLeft);
 
     QPushButton* home_button = new QPushButton();
     home_button->setObjectName("HomeButton");
-    tool_bar_layout->addWidget(home_button, 0, Qt::AlignLeft);
 
     QPushButton* next_button = new QPushButton();
     next_button->setObjectName("NextButton");
-    tool_bar_layout->addWidget(next_button, 0, Qt::AlignLeft);
 
     QPushButton* edit_button = new QPushButton();
     edit_button->setObjectName("EditButton");
-    tool_bar_layout->addWidget(edit_button, 0, Qt::AlignLeft);
 
     QPushButton* settings_button = new QPushButton();
     settings_button->setObjectName("SettingsButton");
+
+    QHBoxLayout* tool_bar_layout = new QHBoxLayout();
+    tool_bar_layout->setContentsMargins(0, 0, 0, 0);
+    tool_bar_layout->setSpacing(0);
+
+    tool_bar_layout->addWidget(m_back_button, 0, Qt::AlignLeft);
+    tool_bar_layout->addWidget(m_home_button, 0, Qt::AlignLeft);
+    tool_bar_layout->addWidget(m_forward_button, 0, Qt::AlignLeft);
+    tool_bar_layout->addWidget(edit_button, 0, Qt::AlignLeft);
     tool_bar_layout->addWidget(settings_button, 1, Qt::AlignLeft);
 
 #ifdef _DEBUG
+    // Button for testing style file changes
     QPushButton* reload_style_button = new QPushButton("QSS");
-    tool_bar_layout->addWidget(reload_style_button, 0, Qt::AlignRight);
     connect(reload_style_button, &QPushButton::clicked, this, &MainWindow::loadStyle);
+    tool_bar_layout->addWidget(reload_style_button, 0, Qt::AlignRight);
 #endif
 
     QWidget* tool_bar_widget = new QWidget();
