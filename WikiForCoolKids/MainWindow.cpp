@@ -19,6 +19,7 @@ namespace
     const QString WIKI_FILE_EXTENSION(".txt");
 
     const QString HOME_PAGE("Home");
+    const QString CSS_FILE_NAME("style.css");
 }
 
 MainWindow::MainWindow(QWidget *parent)
@@ -30,6 +31,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     setObjectName("WikiMainWindow");
     setupGUI();
+
+    loadCSS();
 
     goToHomePage();
 }
@@ -143,6 +146,25 @@ void MainWindow::goToPreviousPage()
 void MainWindow::urlChanged(const QUrl& url)
 {
     qDebug() << "Opening link: " << url.toString();
+}
+
+void MainWindow::loadCSS()
+{
+    QString style_file_path = WIKI_FOLDER_LOCATION + CSS_FILE_NAME;
+
+    QFile file(style_file_path);
+    if (file.open(QIODevice::ReadOnly)) 
+    {
+        QTextStream in(&file);
+
+        QString css_string;
+        while (!in.atEnd()) 
+            css_string += in.readLine();
+        m_html_view->document()->setDefaultStyleSheet(css_string);
+
+        file.close();
+    }
+
 }
 
 void MainWindow::showPage(const QString & pageName)

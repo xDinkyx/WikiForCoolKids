@@ -26,6 +26,8 @@ private:
 
     void updateButtonsEnabled();
 
+    void loadCSS();
+
     // Navigation
     void goToHomePage();
     void goToNextPage();
