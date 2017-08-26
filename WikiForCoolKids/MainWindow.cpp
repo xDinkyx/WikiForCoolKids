@@ -27,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_back_button(nullptr)
     , m_home_button(nullptr)
     , m_forward_button(nullptr)
+    , m_visited_pages()
     , m_html_view(nullptr)
 {
     setObjectName("WikiMainWindow");
@@ -37,8 +38,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::showWikiPage(const QString & pageName)
 {
-    m_current_page = pageName;
-
     QString page_file_path = WIKI_FOLDER_LOCATION + pageName + WIKI_FILE_EXTENSION;
     QString page_html = WikiPageLoader::loadPageHTML(page_file_path);
     m_html_view->setHtml(page_html);
@@ -57,10 +56,9 @@ void MainWindow::setupGUI()
 
 QWidget* MainWindow::createToolBar()
 {
-
     m_back_button = new QPushButton();
     m_back_button->setObjectName("BackButton");
-    connect(m_back_button, &QPushButton::clicked, this, &MainWindow::goToNextPage);
+    connect(m_back_button, &QPushButton::clicked, this, &MainWindow::goToPreviousPage);
 
     m_home_button = new QPushButton();
     m_home_button->setObjectName("HomeButton");
@@ -68,7 +66,7 @@ QWidget* MainWindow::createToolBar()
 
     m_forward_button = new QPushButton();
     m_forward_button->setObjectName("NextButton");
-    connect(m_forward_button, &QPushButton::clicked, this, &MainWindow::goToPreviousPage);
+    connect(m_forward_button, &QPushButton::clicked, this, &MainWindow::goToNextPage);
 
     QPushButton* edit_button = new QPushButton();
     edit_button->setObjectName("EditButton");
@@ -121,9 +119,9 @@ QWidget* MainWindow::createMainWidget()
 
 void MainWindow::updateButtonsEnabled()
 {
-    m_back_button->setEnabled(false);
-    m_home_button->setEnabled(m_current_page != HOME_PAGE);
-    m_forward_button->setEnabled(false);
+    m_back_button->setEnabled(m_current_page != m_visited_pages.begin());
+    m_home_button->setEnabled(*m_current_page != HOME_PAGE);
+    m_forward_button->setEnabled(m_current_page != --m_visited_pages.end());
 }
 
 void MainWindow::loadStyle()
@@ -140,22 +138,42 @@ void MainWindow::loadStyle()
 
 void MainWindow::goToHomePage()
 {
-    showWikiPage(HOME_PAGE);
+    openLink(HOME_PAGE);
 }
 
 void MainWindow::goToNextPage()
 {
-
+    ++m_current_page;
+    showWikiPage(*m_current_page);
 }
 
 void MainWindow::goToPreviousPage()
 {
-
+    --m_current_page;
+    showWikiPage(*m_current_page);
 }
 
 void MainWindow::openLink(const QUrl& url)
 {
+    clearNextPages();
+
+    m_visited_pages.push_back(url.toString());
+    m_current_page = --m_visited_pages.end(); // Current page is last added iterator.
+
     showWikiPage(url.toString());
+}
+
+void MainWindow::clearNextPages()
+{
+    if (m_visited_pages.empty())
+        return;
+    if (m_current_page == --m_visited_pages.end())
+        return;
+
+    for (auto it = std::next(m_current_page); it != m_visited_pages.end();)
+    {
+        m_visited_pages.erase(it++);
+    }
 }
 
 void MainWindow::loadCSS()
@@ -163,12 +181,12 @@ void MainWindow::loadCSS()
     QString style_file_path = WIKI_FOLDER_LOCATION + CSS_FILE_NAME;
 
     QFile file(style_file_path);
-    if (file.open(QIODevice::ReadOnly)) 
+    if (file.open(QIODevice::ReadOnly))
     {
         QTextStream in(&file);
 
         QString css_string;
-        while (!in.atEnd()) 
+        while (!in.atEnd())
             css_string += in.readLine();
         m_html_view->document()->setDefaultStyleSheet(css_string);
 
