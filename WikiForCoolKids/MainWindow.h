@@ -14,7 +14,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = Q_NULLPTR);
 
-    void showPage(const QString& pageName);
+    void showWikiPage(const QString& pageName);
 
 private:
     void setupGUI();

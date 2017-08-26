@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     goToHomePage();
 }
 
-void MainWindow::showPage(const QString & pageName)
+void MainWindow::showWikiPage(const QString & pageName)
 {
     m_current_page = pageName;
 
@@ -140,7 +140,7 @@ void MainWindow::loadStyle()
 
 void MainWindow::goToHomePage()
 {
-    showPage(HOME_PAGE);
+    showWikiPage(HOME_PAGE);
 }
 
 void MainWindow::goToNextPage()
@@ -155,7 +155,7 @@ void MainWindow::goToPreviousPage()
 
 void MainWindow::openLink(const QUrl& url)
 {
-    qDebug() << "Opening link: " << url.toString();
+    showWikiPage(url.toString());
 }
 
 void MainWindow::loadCSS()
