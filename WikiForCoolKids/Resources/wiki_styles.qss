@@ -58,3 +58,23 @@ QTextBrowser
     border: none;
     font-size: 11pt;
 }
+QScrollBar:vertical 
+{
+    border: none;
+    background: none;
+    width: 10px;
+}
+QScrollBar::handle:vertical 
+{
+    border: none;
+    border-radius: 5px;
+    background: grey;
+}
+QScrollBar::add-line:horizontal 
+{
+    height: 0px;
+}
+QScrollBar::sub-line:horizontal 
+{
+    height: 0px;
+}
