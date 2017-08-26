@@ -32,8 +32,6 @@ MainWindow::MainWindow(QWidget *parent)
     setObjectName("WikiMainWindow");
     setupGUI();
 
-    loadCSS();
-
     goToHomePage();
 }
 
@@ -109,6 +107,7 @@ QWidget* MainWindow::createMainWidget()
     m_html_view->setOpenExternalLinks(false);
     m_html_view->setSearchPaths(QStringList() << WIKI_FOLDER_LOCATION);
     connect(m_html_view, &QTextBrowser::anchorClicked, this, &MainWindow::openLink);
+    loadCSS();
 
     QVBoxLayout* main_layout = new QVBoxLayout();
     main_layout->setContentsMargins(0, 0, 0, 0);
@@ -175,5 +174,4 @@ void MainWindow::loadCSS()
 
         file.close();
     }
-
 }

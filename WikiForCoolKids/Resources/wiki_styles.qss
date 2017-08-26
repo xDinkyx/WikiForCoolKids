@@ -56,4 +56,5 @@ QPushButton#SettingsButton
 QTextBrowser
 {
     border: none;
+    font-size: 11pt;
 }
