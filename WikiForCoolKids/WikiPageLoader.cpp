@@ -9,6 +9,27 @@
 
 #include <QDebug>
 
+QString WikiPageLoader::loadPageHTML(const QString& filePath)
+{
+    QFileInfo file_info(filePath);
+    if (!file_info.isFile())
+    {
+        qDebug() << "File does not exist: " << filePath;
+        return "";
+    }
+
+    markdown::Document markdown_document;
+    markdown_document.read(readWikiFileString(filePath));
+
+    std::stringstream output_string_stream;
+    markdown_document.write(output_string_stream);
+
+    QString html_string = QString::fromStdString(output_string_stream.str());
+    parseHtml(html_string);
+
+    return html_string;
+}
+
 std::string WikiPageLoader::readWikiFileString(const QString& filePath)
 {
     std::string file_path = filePath.toStdString();
@@ -26,19 +47,31 @@ std::string WikiPageLoader::readWikiFileString(const QString& filePath)
     }
 }
 
-QString WikiPageLoader::loadPageHTML(const QString& filePath)
+void WikiPageLoader::parseHtml(QString& htmlString)
 {
-    QFileInfo file_info(filePath);
-    if (!file_info.isFile())
+    QStringList html_lines = htmlString.split('\n');
+    for (int i(0); i < html_lines.size(); ++i)
     {
-        qDebug() << "File does not exist: " << filePath;
-        return "";
+         insertHtmlLinks(html_lines[i]);
     }
+    htmlString = html_lines.join('\n');
+}
 
-    markdown::Document markdown_document;
-    markdown_document.read(readWikiFileString(filePath));
+void WikiPageLoader::insertHtmlLinks(QString& htmlLine)
+{
+    int link_start = htmlLine.indexOf('{');
+    int link_end(0);
 
-    std::stringstream output_string_stream;
-    markdown_document.write(output_string_stream);
-    return QString::fromStdString(output_string_stream.str());
+    while (link_start != -1)
+    {
+        link_end = htmlLine.indexOf('}');
+        if (link_end != -1)
+        {
+            QString link = htmlLine.mid(link_start, link_end - link_start + 1);
+            QString link_without_braces = link.mid(1, link.size() - 2);
+            htmlLine.replace(link, QString("<a href=\"%1\">%2</a>").arg(link_without_braces.replace(' ', '_'), link_without_braces));
+
+            link_start = htmlLine.indexOf('{');
+        }
+    }
 }

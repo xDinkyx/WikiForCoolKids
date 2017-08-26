@@ -37,6 +37,17 @@ MainWindow::MainWindow(QWidget *parent)
     goToHomePage();
 }
 
+void MainWindow::showPage(const QString & pageName)
+{
+    m_current_page = pageName;
+
+    QString page_file_path = WIKI_FOLDER_LOCATION + pageName + WIKI_FILE_EXTENSION;
+    QString page_html = WikiPageLoader::loadPageHTML(page_file_path);
+    m_html_view->setHtml(page_html);
+
+    updateButtonsEnabled();
+}
+
 void MainWindow::setupGUI()
 {
     setMinimumSize(900, 600);
@@ -97,7 +108,7 @@ QWidget* MainWindow::createMainWidget()
     m_html_view->setOpenLinks(false);
     m_html_view->setOpenExternalLinks(false);
     m_html_view->setSearchPaths(QStringList() << WIKI_FOLDER_LOCATION);
-    connect(m_html_view, &QTextBrowser::anchorClicked, this, &MainWindow::urlChanged);
+    connect(m_html_view, &QTextBrowser::anchorClicked, this, &MainWindow::openLink);
 
     QVBoxLayout* main_layout = new QVBoxLayout();
     main_layout->setContentsMargins(0, 0, 0, 0);
@@ -143,7 +154,7 @@ void MainWindow::goToPreviousPage()
 
 }
 
-void MainWindow::urlChanged(const QUrl& url)
+void MainWindow::openLink(const QUrl& url)
 {
     qDebug() << "Opening link: " << url.toString();
 }
@@ -165,15 +176,4 @@ void MainWindow::loadCSS()
         file.close();
     }
 
-}
-
-void MainWindow::showPage(const QString & pageName)
-{
-    m_current_page = pageName;
-
-    QString page_file_path = WIKI_FOLDER_LOCATION + pageName + WIKI_FILE_EXTENSION;
-    QString page_html = WikiPageLoader::loadPageHTML(page_file_path);
-    m_html_view->setHtml(page_html);
-
-    updateButtonsEnabled();
 }

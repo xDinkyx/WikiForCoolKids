@@ -11,5 +11,7 @@ public:
 private:
     static std::string readWikiFileString(const QString& filePath);
 
+    static void parseHtml(QString& htmlString);
+    static void insertHtmlLinks(QString& htmlLine);
 };
 

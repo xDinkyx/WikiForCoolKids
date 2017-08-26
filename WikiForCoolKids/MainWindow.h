@@ -17,22 +17,18 @@ public:
     void showPage(const QString& pageName);
 
 private:
-
-    // GUI
     void setupGUI();
     void loadStyle();
+    void loadCSS();
     QWidget* createToolBar();
     QWidget* createMainWidget();
 
     void updateButtonsEnabled();
 
-    void loadCSS();
-
-    // Navigation
     void goToHomePage();
     void goToNextPage();
     void goToPreviousPage();
-    void urlChanged(const QUrl& url);
+    void openLink(const QUrl& url);
 
     // Datamembers
     QPushButton* m_back_button;
