@@ -210,9 +210,11 @@ void MainWindow::clearNextPages()
     }
 }
 
-void MainWindow::finishEdit()
+void MainWindow::finishEdit(bool textChanged)
 {
-    savePage();
+    if (textChanged)
+        savePage();
+    
     switchToHtmlView();
 }
 

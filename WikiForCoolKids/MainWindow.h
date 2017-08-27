@@ -44,7 +44,7 @@ private:
     void openLink(const QUrl& url);
     void clearNextPages();
 
-    void finishEdit();
+    void finishEdit(bool textChanged);
     void savePage();
 
     // Datamembers

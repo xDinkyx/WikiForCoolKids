@@ -17,10 +17,15 @@ public:
     QString getText();
 
 signals:
-    void editingFinished();
+    void editingFinished(bool textChanged);
 
 private:
     void setupGUI();
+    void updateFinishButtonText();
+    void finishEditing();
 
     QTextEdit* m_page_edit;
+    QPushButton* m_finish_button;
+
+    QString m_original_text;
 };
