@@ -9,7 +9,7 @@
 
 #include <QDebug>
 
-QString WikiPageLoader::loadPageHTML(const QString& filePath)
+bool WikiPageLoader::loadPage(const QString& filePath, QString& outMarkdown, QString& outHtml)
 {
     QFileInfo file_info(filePath);
     if (!file_info.isFile())
@@ -18,36 +18,45 @@ QString WikiPageLoader::loadPageHTML(const QString& filePath)
         return "";
     }
 
+    QString wiki_file_string;
+    readWikiFile(filePath, wiki_file_string);
+
+    parseWikiMarkdown(wiki_file_string, outMarkdown);
+
     markdown::Document markdown_document;
-    markdown_document.read(readWikiFileString(filePath));
+    markdown_document.read(outMarkdown.toStdString());
 
     std::stringstream output_string_stream;
     markdown_document.write(output_string_stream);
 
-    QString html_string = QString::fromStdString(output_string_stream.str());
-    parseHtml(html_string);
+    outHtml = QString::fromStdString(output_string_stream.str());
+    formatWikiHtml(outHtml);
 
-    return html_string;
+    return true;
 }
 
-std::string WikiPageLoader::readWikiFileString(const QString& filePath)
+bool WikiPageLoader::parseWikiMarkdown(const QString& fileString, QString& out_markdown)
 {
-    std::string file_path = filePath.toStdString();
+    out_markdown = fileString; // Currently entire file is markdown.
 
-    std::ifstream input_file_stream;
-    input_file_stream.open(file_path.c_str());
-    if (!input_file_stream)
-    {
-        qDebug() << "Failed to open file: " << filePath;
-        return "";
-    }
-    else
-    {
-        return std::string((std::istreambuf_iterator<char>(input_file_stream)), std::istreambuf_iterator<char>());
-    }
+    return true;
 }
 
-void WikiPageLoader::parseHtml(QString& htmlString)
+bool WikiPageLoader::readWikiFile(const QString& filePath, QString& fileString)
+{
+    QFile file(filePath);
+    if (file.open(QIODevice::ReadOnly))
+    {
+        QTextStream in(&file);
+        fileString = in.readAll();
+        file.close();
+
+        return true;
+    }
+    return false;
+}
+
+void WikiPageLoader::formatWikiHtml(QString& htmlString)
 {
     QStringList html_lines = htmlString.split('\n');
     for (int i(0); i < html_lines.size(); ++i)

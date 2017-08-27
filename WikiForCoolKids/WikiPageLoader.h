@@ -6,12 +6,17 @@
 class WikiPageLoader
 {
 public:
-    static QString loadPageHTML(const QString& filePath);
+    // Read file at path and fill in markdown and html string.
+    static bool loadPage(const QString& filePath, QString& outMarkdown, QString& outHtml);
+    // Take entire file string and extract the markdown string.
+    static bool parseWikiMarkdown(const QString& fileString, QString& outMarkdown);
 
 private:
-    static std::string readWikiFileString(const QString& filePath);
+    // Open file and read in contents.
+    static bool readWikiFile(const QString& filePath, QString& fileString);
 
-    static void parseHtml(QString& htmlString);
+    // Takes html string and adds in missing parts.
+    static void formatWikiHtml(QString& htmlString);
     static void insertHtmlLinks(QString& htmlLine);
 };
 
