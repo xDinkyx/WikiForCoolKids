@@ -76,9 +76,11 @@ void WikiPageLoader::insertHtmlLinks(QString& htmlLine)
         link_end = htmlLine.indexOf('}');
         if (link_end != -1)
         {
-            QString link = htmlLine.mid(link_start, link_end - link_start + 1);
-            QString link_without_braces = link.mid(1, link.size() - 2);
-            htmlLine.replace(link, QString("<a href=\"%1\">%2</a>").arg(link_without_braces.replace(' ', '_'), link_without_braces));
+            QString markdown_link = htmlLine.mid(link_start, link_end - link_start + 1);
+            QString displayed_link = markdown_link.mid(1, markdown_link.size() - 2);
+            QString html_link(displayed_link);
+            html_link.replace(' ', '_');
+            htmlLine.replace(markdown_link, QString("<a href=\"%1\">%2</a>").arg(html_link, displayed_link));
 
             link_start = htmlLine.indexOf('{');
         }
