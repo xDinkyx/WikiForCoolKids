@@ -95,10 +95,14 @@ QWidget* MainWindow::createToolBar()
     tool_bar_layout->addWidget(settings_button, 1, Qt::AlignLeft);
 
 #ifdef _DEBUG
-    // Button for testing style file changes
-    QPushButton* reload_style_button = new QPushButton("QSS");
-    connect(reload_style_button, &QPushButton::clicked, this, &MainWindow::loadStyle);
-    tool_bar_layout->addWidget(reload_style_button, 0, Qt::AlignRight);
+    // Buttons for testing style file changes
+    QPushButton* reload_qss_button = new QPushButton("QSS");
+    connect(reload_qss_button, &QPushButton::clicked, this, &MainWindow::loadStyle);
+    tool_bar_layout->addWidget(reload_qss_button, 0, Qt::AlignRight);
+
+    QPushButton* reload_css_button = new QPushButton("CSS");
+    connect(reload_css_button, &QPushButton::clicked, this, &MainWindow::loadCSS);
+    tool_bar_layout->addWidget(reload_css_button, 0, Qt::AlignRight);
 #endif
 
     QWidget* tool_bar_widget = new QWidget();

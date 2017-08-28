@@ -32,12 +32,13 @@ void WikiEditView::setupGUI()
     connect(m_page_edit, &QTextEdit::textChanged, this, &WikiEditView::updateFinishButtonText);
 
     m_finish_button = new QPushButton("Close");
+    m_finish_button->setFixedHeight(30);
     connect(m_finish_button, &QPushButton::clicked, this, &WikiEditView::finishEditing);
 
     QVBoxLayout* main_layout = new QVBoxLayout();
     main_layout->setContentsMargins(0, 0, 0, 0);
     main_layout->setSpacing(0);
-    main_layout->addWidget(m_page_edit, 1);
+    main_layout->addWidget(m_page_edit);
     main_layout->addWidget(m_finish_button);
 
     setLayout(main_layout);

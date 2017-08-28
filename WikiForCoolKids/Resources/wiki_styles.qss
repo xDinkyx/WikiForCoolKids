@@ -1,4 +1,4 @@
-/* Button styling */
+/* Button */
 /* ------------------------------------------ */
 QPushButton
 { 
@@ -6,6 +6,10 @@ QPushButton
 
     color: #DDDDDD;
     background-color: #54606E;
+    
+    font-family: "Corbel";
+    font-weight: bold;
+    font-size: 16px;
 }
 QPushButton:hover
 {
@@ -51,13 +55,25 @@ QPushButton#SettingsButton
     background-image: url(:/Icons/options);
 }
 
-/* HTML Viewer styling */
+/* HTML View */
 /* ------------------------------------------ */
 QTextBrowser
 {
     border: none;
-    font-size: 11pt;
+    font-family: "Palatino Linotype";
+    font-size: 14pt;
 }
+
+/* Edit View */
+/* ------------------------------------------ */
+QTextEdit
+{
+    border: none;
+    font-size: 12pt;
+}
+
+/* Scrollbar */
+/* ------------------------------------------ */
 QScrollBar:vertical 
 {
     border: none;
