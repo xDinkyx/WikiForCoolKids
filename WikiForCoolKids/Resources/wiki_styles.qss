@@ -55,6 +55,14 @@ QPushButton#SettingsButton
     background-image: url(:/Icons/options);
 }
 
+/* Frame */
+/* ------------------------------------------ */
+QFrame#NagivationPane
+{
+    border: 1px solid grey;
+    background-color: white;
+}
+
 /* HTML View */
 /* ------------------------------------------ */
 QTextBrowser

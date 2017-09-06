@@ -57,7 +57,8 @@ private:
 
     WikiPageList m_visited_pages;
     WikiPageList::iterator m_current_page;
-    QTextBrowser* m_html_view;
+    QTextBrowser* m_html_browser;
 
+    QWidget* m_html_view;
     WikiEditView* m_edit_view;
 };

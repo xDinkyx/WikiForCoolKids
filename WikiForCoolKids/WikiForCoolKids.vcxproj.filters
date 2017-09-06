@@ -78,6 +78,24 @@
     <ClCompile Include="WikiEditView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_NavigationPane.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_NavigationPane.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="NavigationPane.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_WikiHeaderListModel.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_WikiHeaderListModel.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="WikiHeaderListModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="WikiForCoolKids.qrc">
@@ -90,6 +108,12 @@
       <Filter>Resource Files</Filter>
     </CustomBuild>
     <CustomBuild Include="WikiEditView.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NavigationPane.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="WikiHeaderListModel.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>
@@ -129,6 +153,9 @@
       <Filter>cpp-markdown</Filter>
     </ClInclude>
     <ClInclude Include="WikiPageLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WikiHeader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

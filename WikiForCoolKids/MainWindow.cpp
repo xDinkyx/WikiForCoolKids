@@ -5,11 +5,13 @@
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QHBoxLayout>
 
-#include "WikiEditView.h"
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QTextBrowser>
+
+#include "WikiEditView.h"
+#include "NavigationPane.h"
 
 #include <QFile>
 
@@ -32,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent /*= nullptr*/)
     , m_forward_button(nullptr)
     , m_edit_button(nullptr)
     , m_page_view(nullptr)
+    , m_html_browser(nullptr)
     , m_html_view(nullptr)
     , m_edit_view(nullptr)
 {
@@ -49,7 +52,7 @@ void MainWindow::openWikiPage(const QString & pageName)
     QString page_markdown, page_html;
     WikiPageLoader::loadPage(page_file_path, page_markdown, page_html);
     m_edit_view->setText(page_markdown);
-    m_html_view->setHtml(page_html);
+    m_html_browser->setHtml(page_html);
 
     updateButtonsEnabled();
 }
@@ -124,13 +127,21 @@ QWidget* MainWindow::createMainWidget()
 
 QWidget* MainWindow::createHtmlView()
 {
-    m_html_view = new QTextBrowser();
-    m_html_view->setOpenLinks(false);
-    m_html_view->setOpenExternalLinks(false);
-    m_html_view->setSearchPaths(QStringList() << WIKI_FOLDER_LOCATION);
-    connect(m_html_view, &QTextBrowser::anchorClicked, this, &MainWindow::openLink);
+    m_html_browser = new QTextBrowser();
+    m_html_browser->setOpenLinks(false);
+    m_html_browser->setOpenExternalLinks(false);
+    m_html_browser->setSearchPaths(QStringList() << WIKI_FOLDER_LOCATION);
+    connect(m_html_browser, &QTextBrowser::anchorClicked, this, &MainWindow::openLink);
     loadCSS();
 
+    QHBoxLayout* layout = new QHBoxLayout();
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setSpacing(0);
+    layout->addWidget(m_html_browser);
+    layout->addWidget(new NavigationPane());
+
+    m_html_view = new QWidget();
+    m_html_view->setLayout(layout);
     return m_html_view;
 }
 
@@ -246,7 +257,7 @@ void MainWindow::loadCSS()
         QString css_string;
         while (!in.atEnd())
             css_string += in.readLine();
-        m_html_view->document()->setDefaultStyleSheet(css_string);
+        m_html_browser->document()->setDefaultStyleSheet(css_string);
 
         file.close();
     }
