@@ -108,6 +108,7 @@
     </ClCompile>
     <ClCompile Include="NavigationPane.cpp" />
     <ClCompile Include="WikiEditView.cpp" />
+    <ClCompile Include="WikiHeader.cpp" />
     <ClCompile Include="WikiHeaderListModel.cpp" />
     <ClCompile Include="WikiPageLoader.cpp" />
     <ClCompile Include="main.cpp" />

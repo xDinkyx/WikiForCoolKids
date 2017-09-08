@@ -35,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent /*= nullptr*/)
     , m_edit_button(nullptr)
     , m_page_view(nullptr)
     , m_html_browser(nullptr)
+    , m_navigation_pane(nullptr)
     , m_html_view(nullptr)
     , m_edit_view(nullptr)
 {
@@ -134,11 +135,13 @@ QWidget* MainWindow::createHtmlView()
     connect(m_html_browser, &QTextBrowser::anchorClicked, this, &MainWindow::openLink);
     loadCSS();
 
+    m_navigation_pane = new NavigationPane();
+
     QHBoxLayout* layout = new QHBoxLayout();
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
     layout->addWidget(m_html_browser);
-    layout->addWidget(new NavigationPane());
+    layout->addWidget(m_navigation_pane);
 
     m_html_view = new QWidget();
     m_html_view->setLayout(layout);

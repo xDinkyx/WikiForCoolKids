@@ -1,11 +1,11 @@
 #pragma once
 
-#include <QAbstractListModel>
+#include <QAbstractItemModel>
 
 #include "WikiHeader.h"
 #include <vector>
 
-class WikiHeaderListModel : public QAbstractListModel
+class WikiHeaderListModel : public QAbstractItemModel
 {
     Q_OBJECT
 
@@ -13,9 +13,12 @@ public:
     WikiHeaderListModel(QObject* parent = nullptr);
     ~WikiHeaderListModel();
 
-    int rowCount(const QModelIndex& parent) const override;
     QVariant data(const QModelIndex& index, int role) const override;
+    QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const override;
+    QModelIndex parent(const QModelIndex& child) const override;
+    int rowCount(const QModelIndex& parent) const override;
+    int columnCount(const QModelIndex& parent = QModelIndex()) const override;
 
 private:
-    std::vector<WikiHeader> m_wiki_headers;
+    WikiHeader* m_main_header;
 };

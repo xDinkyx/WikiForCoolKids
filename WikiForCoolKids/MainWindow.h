@@ -10,6 +10,7 @@ class QLayout;
 class QPushButton;
 class QStackedWidget;
 class QTextBrowser;
+class NavigationPane;
 class WikiEditView;
 
 // Typedefs
@@ -58,6 +59,7 @@ private:
     WikiPageList m_visited_pages;
     WikiPageList::iterator m_current_page;
     QTextBrowser* m_html_browser;
+    NavigationPane* m_navigation_pane;
 
     QWidget* m_html_view;
     WikiEditView* m_edit_view;
