@@ -102,3 +102,16 @@ QScrollBar::sub-line:horizontal
 {
     height: 0px;
 }
+
+QScrollBar:horizontal 
+{
+    border: none;
+    background: none;
+    height: 10px;
+}
+QScrollBar::handle:horizontal 
+{
+    border: none;
+    border-radius: 5px;
+    background: grey;
+}
