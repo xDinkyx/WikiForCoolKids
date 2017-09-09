@@ -122,7 +122,7 @@ void WikiPageLoader::insertHtmlAnchors(QString& htmlLine, int lineNumber)
     if (htmlLine.startsWith("<h"))
     {
         QString name = extractHtmlElementContent(htmlLine);
-        htmlLine.append(QString("\n<a name=\"#headerAnchor_%1\" />").arg(name));
+        htmlLine.append(QString("\n<a name=\"#headerAnchor_%1\" />").arg(lineNumber));
     }
 }
 
