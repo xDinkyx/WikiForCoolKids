@@ -11,6 +11,22 @@
 
 #include <QDebug>
 
+namespace
+{
+    int extractHeaderLevel(const QString& headerString)
+    {
+        int level_pos = QString("<h").size();
+        return headerString[level_pos].unicode() - '0';
+    }
+
+    QString extractHeaderName(const QString& headerString)
+    {
+        int name_start = QString("<h0>").length();
+        int name_length = headerString.length() - QString("</h0>").length() - name_start;
+        return headerString.mid(name_start, name_length);
+    }
+}
+
 bool WikiPageLoader::loadPage(const QString& filePath, QString& outMarkdown, QString& outHtml)
 {
     QFileInfo file_info(filePath);
@@ -99,10 +115,11 @@ std::vector<WikiHeader*> WikiPageLoader::extractHeadersFromHtml(const QString & 
     {
         if (line.startsWith("<h"))
         {
-            int level  = line[2].unicode() - '0';
+            int level = extractHeaderLevel(line);
+            QString name = extractHeaderName(line);
             if (level == 1)
             {
-                last_header = new WikiHeader("main", line, nullptr);
+                last_header = new WikiHeader("main", name, nullptr);
                 headers.push_back(last_header);
             }
             else
@@ -110,18 +127,18 @@ std::vector<WikiHeader*> WikiPageLoader::extractHeadersFromHtml(const QString & 
                 int last_level = last_header->level();
                 if (level > last_level)
                 {
-                    last_header = new WikiHeader("child", line, last_header);
+                    last_header = new WikiHeader("child", name, last_header);
                 }
                 else if (level == last_level)
                 {
-                    last_header = new WikiHeader("child", line, last_header->getParent());
+                    last_header = new WikiHeader("child", name, last_header->getParent());
                 }
                 else
                 {
                     WikiHeader* parent_header = last_header->getParent();
                     while (parent_header->level() >= level)
                         parent_header = parent_header->getParent();
-                    last_header = new WikiHeader("child", line, parent_header);
+                    last_header = new WikiHeader("child", name, parent_header);
                 }
             }
         }
