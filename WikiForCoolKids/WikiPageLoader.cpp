@@ -89,7 +89,7 @@ void WikiPageLoader::insertHtmlLinks(QString& htmlLine)
     }
 }
 
-std::vector<WikiHeader*> WikiPageLoader::extractHeadersFromHtml(QString & htmlString)
+std::vector<WikiHeader*> WikiPageLoader::extractHeadersFromHtml(const QString & htmlString)
 {
     std::vector<WikiHeader*> headers;
     WikiHeader* last_header;

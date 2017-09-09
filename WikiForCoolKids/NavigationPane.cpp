@@ -2,32 +2,42 @@
 
 #include "WikiHeaderListModel.h"
 
+#include "WikiPageLoader.h"
+
 #include <QFrame>
 #include <QVBoxLayout>
 #include <QTreeView>
 
 NavigationPane::NavigationPane(QWidget* parent /*= nullptr*/)
     : QFrame(parent)
+    , m_tree_view(nullptr)
+    , m_model(nullptr)
 {
     setObjectName("NavigationPane");
-    createGUI();
+
     setMaximumWidth(250);
+    createGUI();
 }
 
 NavigationPane::~NavigationPane() = default;
 
+void NavigationPane::updateHeaders(const QString& htmlString)
+{
+    m_model = new WikiHeaderListModel();
+    m_model->setData(WikiPageLoader::extractHeadersFromHtml(htmlString));
+    m_tree_view->setModel(m_model);
+    m_tree_view->expandAll();
+    m_tree_view->resizeColumnToContents(0);
+}
+
 void NavigationPane::createGUI()
 {
-    QTreeView* tree_view = new QTreeView();
-    WikiHeaderListModel* list_model = new WikiHeaderListModel();
-    tree_view->setModel(list_model);
-    tree_view->expandAll();
-    tree_view->setHeaderHidden(true);
-    tree_view->resizeColumnToContents(0);
+    m_tree_view = new QTreeView();
+    m_tree_view->setHeaderHidden(true);
 
     QVBoxLayout* main_layout = new QVBoxLayout();
     main_layout->setContentsMargins(0, 0, 0, 0);
-    main_layout->addWidget(tree_view);
+    main_layout->addWidget(m_tree_view);
 
     this->setLayout(main_layout);
 }

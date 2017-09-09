@@ -1,5 +1,7 @@
 #include "WikiHeader.h"
 
+#include <QtGlobal>
+
 WikiHeader::WikiHeader(QString path, QString name, WikiHeader* parent /*= nullptr*/)
     : m_path(path)
     , m_name(name)
@@ -20,12 +22,25 @@ WikiHeader::~WikiHeader()
 void WikiHeader::addChild(WikiHeader* header)
 {
     m_child_headers.push_back(header);
+    header->setParent(this);
 }
 
 WikiHeader* WikiHeader::childAt(int row) const
 {
     return m_child_headers[row];
 }
+
+//WikiHeader* WikiHeader::getParentAtLevel() const
+//{
+//    if (m_parent == nullptr)
+//        return nullptr;
+//
+//    Q_ASSERT(m_parent->level() <= level(), "Parent header has to be of a higher level than its child.");
+//
+//
+//
+//    return nullptr;
+//}
 
 int WikiHeader::childCount() const
 {
@@ -38,6 +53,21 @@ int WikiHeader::row() const
         return 0;
 
     return std::find(m_parent->getChildren().begin(), m_parent->getChildren().end(), this) - m_parent->getChildren().begin();
+}
+
+int WikiHeader::level() const
+{
+    WikiHeader* parent(m_parent);
+    int level(0);
+
+    // Go up tree untill no parent is found (top header)
+    while (parent != nullptr)
+    {
+        ++level;
+        parent = parent->getParent();
+    }
+
+    return level;
 }
 
 

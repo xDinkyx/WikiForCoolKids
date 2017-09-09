@@ -13,6 +13,8 @@ public:
     WikiHeaderListModel(QObject* parent = nullptr);
     ~WikiHeaderListModel();
 
+    void setData(const std::vector<WikiHeader*>& headers);
+
     QVariant data(const QModelIndex& index, int role) const override;
     QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const override;
     QModelIndex parent(const QModelIndex& child) const override;
@@ -20,5 +22,5 @@ public:
     int columnCount(const QModelIndex& parent = QModelIndex()) const override;
 
 private:
-    WikiHeader* m_main_header;
+    WikiHeader* m_top_header;
 };

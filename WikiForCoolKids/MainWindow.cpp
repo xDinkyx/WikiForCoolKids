@@ -40,6 +40,7 @@ MainWindow::MainWindow(QWidget *parent /*= nullptr*/)
     , m_edit_view(nullptr)
 {
     setObjectName("WikiMainWindow");
+    setMinimumSize(600, 800);
     setupGUI();
 
     goToHomePage();
@@ -54,6 +55,8 @@ void MainWindow::openWikiPage(const QString & pageName)
     WikiPageLoader::loadPage(page_file_path, page_markdown, page_html);
     m_edit_view->setText(page_markdown);
     m_html_browser->setHtml(page_html);
+
+    m_navigation_pane->updateHeaders(page_html);
 
     updateButtonsEnabled();
 }

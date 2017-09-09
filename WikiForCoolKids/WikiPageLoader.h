@@ -16,7 +16,7 @@ public:
     static bool parseWikiMarkdown(const QString& fileString, QString& outMarkdown);
 
     // Takes html and extracts headers.
-    static std::vector<WikiHeader*> extractHeadersFromHtml(QString& htmlString);
+    static std::vector<WikiHeader*> extractHeadersFromHtml(const QString& htmlString);
 
 private:
     // Open file and read in contents.
