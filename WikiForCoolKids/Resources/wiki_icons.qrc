@@ -6,5 +6,7 @@
         <file alias="home">Icons/globe.png</file>
         <file alias="back">Icons/back_arrow.png</file>
         <file alias="next">Icons/next_arrow.png</file>
+        <file alias="closed">Icons/closed_arrow.png</file>
+        <file alias="open">Icons/open_arrow.png</file>
     </qresource>
 </RCC>

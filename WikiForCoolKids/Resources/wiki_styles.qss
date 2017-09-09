@@ -23,7 +23,15 @@ QPushButton:disabled
 {
     background-color: #7C8997;
 }
+
 /* Toolbar */
+/* ------------------------------------------ */
+QFrame#ToolBar
+{
+    border: none;
+    background-color: #7C8997;
+}
+
 QWidget#ToolBar > QPushButton
 {
     min-width:  40px;
@@ -55,12 +63,48 @@ QPushButton#SettingsButton
     background-image: url(:/Icons/options);
 }
 
-/* Frame */
+/* NagivationPane */
 /* ------------------------------------------ */
 QFrame#NagivationPane
 {
     border: 1px solid grey;
     background-color: white;
+}
+
+QTreeView
+{
+    font-family: "Palatino Linotype";
+    font-size: 14pt;
+
+    alternate-background-color: #F3F5F8;
+}
+QTreeView::item:selected
+{
+    color: white;
+    background-color: #818890;
+}
+QTreeView::item:hover
+{
+    color: white;
+    background-color: #adb1b6;
+}
+QTreeView::branch:selected
+{
+    background-color: #818890;
+}
+QTreeView::branch:hover
+{
+    background-color: #adb1b6;
+}
+QTreeView::branch:has-children:!has-siblings:closed,
+QTreeView::branch:closed:has-children:has-siblings 
+{
+    image: url(:/Icons/closed);
+}
+QTreeView::branch:open:has-children:!has-siblings,
+QTreeView::branch:open:has-children:has-siblings  
+{
+    image: url(:/Icons/open);
 }
 
 /* HTML View */

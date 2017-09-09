@@ -35,6 +35,7 @@ void NavigationPane::createGUI()
 {
     m_tree_view = new QTreeView();
     m_tree_view->setHeaderHidden(true);
+    m_tree_view->setAlternatingRowColors(true);
 
     QVBoxLayout* main_layout = new QVBoxLayout();
     main_layout->setContentsMargins(0, 0, 0, 0);

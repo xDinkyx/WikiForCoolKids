@@ -112,7 +112,7 @@ QWidget* MainWindow::createToolBar()
     tool_bar_layout->addWidget(reload_css_button, 0, Qt::AlignRight);
 #endif
 
-    QWidget* tool_bar_widget = new QWidget();
+    QFrame* tool_bar_widget = new QFrame();
     tool_bar_widget->setObjectName("ToolBar");
     tool_bar_widget->setLayout(tool_bar_layout);
 
