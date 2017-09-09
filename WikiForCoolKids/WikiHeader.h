@@ -28,5 +28,5 @@ private:
     QString m_path;
     QString m_name;
     WikiHeader* m_parent;
-    std::vector<WikiHeader*> m_child_headers;
+    std::vector<WikiHeader*> m_child_headers; // ownership
 };

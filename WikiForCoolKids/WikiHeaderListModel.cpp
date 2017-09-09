@@ -4,14 +4,11 @@
 
 WikiHeaderListModel::WikiHeaderListModel(QObject* parent /*= nullptr*/)
     : QAbstractItemModel(parent)
+    , m_top_header(new WikiHeader("", "Navigation pane"))
 {
-    m_top_header = new WikiHeader("", "Navigation pane");
 }
 
-WikiHeaderListModel::~WikiHeaderListModel()
-{
-    delete m_top_header;
-}
+WikiHeaderListModel::~WikiHeaderListModel() = default;
 
 void WikiHeaderListModel::setData(const std::vector<WikiHeader*>& headers)
 {
@@ -41,7 +38,7 @@ QModelIndex WikiHeaderListModel::index(int row, int column, const QModelIndex& p
 
     WikiHeader* parent_header;
     if (!parent.isValid())
-        parent_header = m_top_header;
+        parent_header = m_top_header.get();
     else
         parent_header = static_cast<WikiHeader*>(parent.internalPointer());
 
@@ -60,7 +57,7 @@ QModelIndex WikiHeaderListModel::parent(const QModelIndex& child) const
     WikiHeader* child_header = static_cast<WikiHeader*>(child.internalPointer());
     WikiHeader* parent_header = child_header->getParent();
 
-    if (parent_header == m_top_header)
+    if (parent_header == m_top_header.get())
         return QModelIndex();
 
     return createIndex(parent_header->row(), 0, parent_header);
@@ -73,7 +70,7 @@ int WikiHeaderListModel::rowCount(const QModelIndex& parent) const
         return 0;
 
     if (!parent.isValid())
-        parent_header = m_top_header;
+        parent_header = m_top_header.get();
     else
         parent_header = static_cast<WikiHeader*>(parent.internalPointer());
 

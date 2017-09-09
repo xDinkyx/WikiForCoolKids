@@ -4,6 +4,7 @@
 
 #include "WikiHeader.h"
 #include <vector>
+#include <memory>
 
 class WikiHeaderListModel : public QAbstractItemModel
 {
@@ -22,5 +23,5 @@ public:
     int columnCount(const QModelIndex& parent = QModelIndex()) const override;
 
 private:
-    WikiHeader* m_top_header;
+    std::unique_ptr<WikiHeader> m_top_header;
 };
