@@ -7,6 +7,8 @@
 
 #include <QFileInfo>
 
+#include "WikiHeader.h"
+
 #include <QDebug>
 
 bool WikiPageLoader::loadPage(const QString& filePath, QString& outMarkdown, QString& outHtml)
@@ -59,9 +61,9 @@ bool WikiPageLoader::readWikiFile(const QString& filePath, QString& fileString)
 void WikiPageLoader::formatWikiHtml(QString& htmlString)
 {
     QStringList html_lines = htmlString.split('\n');
-    for (int i(0); i < html_lines.size(); ++i)
+    for (QString& line : html_lines)
     {
-         insertHtmlLinks(html_lines[i]);
+         insertHtmlLinks(line);
     }
     htmlString = html_lines.join('\n');
 }
@@ -85,4 +87,45 @@ void WikiPageLoader::insertHtmlLinks(QString& htmlLine)
             link_start = htmlLine.indexOf('{');
         }
     }
+}
+
+std::vector<WikiHeader*> WikiPageLoader::extractHeadersFromHtml(QString & htmlString)
+{
+    std::vector<WikiHeader*> headers;
+    WikiHeader* last_header;
+
+    QStringList html_lines = htmlString.split('\n');
+    for (QString& line : html_lines)
+    {
+        if (line.startsWith("<h"))
+        {
+            int level  = line[2].unicode() - '0';
+            if (level == 1)
+            {
+                last_header = new WikiHeader("main", line, nullptr);
+                headers.push_back(last_header);
+            }
+            else
+            {
+                int last_level = last_header->level();
+                if (level > last_level)
+                {
+                    last_header = new WikiHeader("child", line, last_header);
+                }
+                else if (level == last_level)
+                {
+                    last_header = new WikiHeader("child", line, last_header->getParent());
+                }
+                else
+                {
+                    WikiHeader* parent_header = last_header->getParent();
+                    while (parent_header->level() >= level)
+                        parent_header = parent_header->getParent();
+                    last_header = new WikiHeader("child", line, parent_header);
+                }
+            }
+        }
+    }
+
+    return headers;
 }

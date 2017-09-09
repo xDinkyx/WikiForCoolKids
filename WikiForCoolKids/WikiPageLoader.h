@@ -3,6 +3,10 @@
 #include <QString>
 #include <string>
 
+#include <vector>
+
+class WikiHeader;
+
 class WikiPageLoader
 {
 public:
@@ -10,6 +14,9 @@ public:
     static bool loadPage(const QString& filePath, QString& outMarkdown, QString& outHtml);
     // Take entire file string and extract the markdown string.
     static bool parseWikiMarkdown(const QString& fileString, QString& outMarkdown);
+
+    // Takes html and extracts headers.
+    static std::vector<WikiHeader*> extractHeadersFromHtml(QString& htmlString);
 
 private:
     // Open file and read in contents.
