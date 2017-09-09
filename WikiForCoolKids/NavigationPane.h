@@ -2,6 +2,8 @@
 
 #include <QFrame>
 
+#include <memory>
+
 class WikiHeaderListModel;
 class QTreeView;
 
@@ -19,5 +21,5 @@ private:
     void createGUI();
 
     QTreeView* m_tree_view;
-    WikiHeaderListModel* m_model;
+    std::unique_ptr<WikiHeaderListModel> m_model;
 };

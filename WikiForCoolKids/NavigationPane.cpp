@@ -23,9 +23,10 @@ NavigationPane::~NavigationPane() = default;
 
 void NavigationPane::updateHeaders(const QString& htmlString)
 {
-    m_model = new WikiHeaderListModel();
+    m_model.reset(new WikiHeaderListModel());
     m_model->setData(WikiPageLoader::extractHeadersFromHtml(htmlString));
-    m_tree_view->setModel(m_model);
+
+    m_tree_view->setModel(m_model.get());
     m_tree_view->expandAll();
     m_tree_view->resizeColumnToContents(0);
 }
