@@ -25,5 +25,6 @@ private:
     // Takes html string and adds in missing parts.
     static void formatWikiHtml(QString& htmlString);
     static void insertHtmlLinks(QString& htmlLine);
+    static void insertHtmlAnchors(QString& htmlLine, int lineNumber);
 };
 

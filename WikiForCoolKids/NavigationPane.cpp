@@ -37,9 +37,19 @@ void NavigationPane::createGUI()
     m_tree_view->setHeaderHidden(true);
     m_tree_view->setAlternatingRowColors(true);
 
+    m_tree_view->setEditTriggers(QAbstractItemView::CurrentChanged);
+
+    connect(m_tree_view, &QTreeView::clicked, this, &NavigationPane::headerSelected);
+
     QVBoxLayout* main_layout = new QVBoxLayout();
     main_layout->setContentsMargins(0, 0, 0, 0);
     main_layout->addWidget(m_tree_view);
 
     this->setLayout(main_layout);
+}
+
+void NavigationPane::headerSelected(const QModelIndex& index)
+{
+    WikiHeader* selected_header = static_cast<WikiHeader*>(index.internalPointer());
+    emit headerNavigated(selected_header->getAnchor());
 }

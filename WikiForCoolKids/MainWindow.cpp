@@ -135,10 +135,13 @@ QWidget* MainWindow::createHtmlView()
     m_html_browser->setOpenLinks(false);
     m_html_browser->setOpenExternalLinks(false);
     m_html_browser->setSearchPaths(QStringList() << WIKI_FOLDER_LOCATION);
+
     connect(m_html_browser, &QTextBrowser::anchorClicked, this, &MainWindow::openLink);
     loadCSS();
 
     m_navigation_pane = new NavigationPane();
+
+    connect(m_navigation_pane, &NavigationPane::headerNavigated, this, &MainWindow::scrollToHeader);
 
     QHBoxLayout* layout = new QHBoxLayout();
     layout->setContentsMargins(0, 0, 0, 0);
@@ -229,6 +232,11 @@ void MainWindow::clearNextPages()
     {
         m_visited_pages.erase(it++);
     }
+}
+
+void MainWindow::scrollToHeader(QString headerAnchor)
+{
+    m_html_browser->scrollToAnchor(headerAnchor);
 }
 
 void MainWindow::finishEdit(bool textChanged)

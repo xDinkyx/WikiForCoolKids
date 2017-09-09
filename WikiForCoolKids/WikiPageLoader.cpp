@@ -19,11 +19,20 @@ namespace
         return headerString[level_pos].unicode() - '0';
     }
 
-    QString extractHeaderName(const QString& headerString)
+    QString extractHtmlElementContent(const QString& htmlElement)
     {
-        int name_start = QString("<h0>").length();
-        int name_length = headerString.length() - QString("</h0>").length() - name_start;
-        return headerString.mid(name_start, name_length);
+        int content_start = htmlElement.indexOf('>') + 1;
+        int content_length = htmlElement.length() - QString("</h0>").length() - content_start;
+        return htmlElement.mid(content_start, content_length);
+    }
+
+    QString extractHtmlNameTag(const QString& htmlElement)
+    {
+        QString tag = "name";
+        int name_start = htmlElement.indexOf(tag) + tag.length() + 2;
+        int name_length = htmlElement.indexOf('"', name_start) - name_start;
+        QString ret = htmlElement.mid(name_start, name_length);
+        return htmlElement.mid(name_start, name_length);
     }
 }
 
@@ -77,9 +86,12 @@ bool WikiPageLoader::readWikiFile(const QString& filePath, QString& fileString)
 void WikiPageLoader::formatWikiHtml(QString& htmlString)
 {
     QStringList html_lines = htmlString.split('\n');
+    int line_number(0);
     for (QString& line : html_lines)
     {
          insertHtmlLinks(line);
+         insertHtmlAnchors(line, line_number);
+         ++line_number;
     }
     htmlString = html_lines.join('\n');
 }
@@ -105,21 +117,32 @@ void WikiPageLoader::insertHtmlLinks(QString& htmlLine)
     }
 }
 
-std::vector<WikiHeader*> WikiPageLoader::extractHeadersFromHtml(const QString & htmlString)
+void WikiPageLoader::insertHtmlAnchors(QString& htmlLine, int lineNumber)
+{
+    if (htmlLine.startsWith("<h"))
+    {
+        QString name = extractHtmlElementContent(htmlLine);
+        htmlLine.append(QString("\n<a name=\"#headerAnchor_%1\" />").arg(name));
+    }
+}
+
+std::vector<WikiHeader*> WikiPageLoader::extractHeadersFromHtml(const QString& htmlString)
 {
     std::vector<WikiHeader*> headers;
     WikiHeader* last_header;
 
     QStringList html_lines = htmlString.split('\n');
-    for (QString& line : html_lines)
+    for (int i(0); i < html_lines.size(); ++i)
     {
+        QString line = html_lines[i];
         if (line.startsWith("<h"))
         {
             int level = extractHeaderLevel(line);
-            QString name = extractHeaderName(line);
+            QString anchor = extractHtmlNameTag(html_lines[++i]);
+            QString name = extractHtmlElementContent(line);
             if (level == 1)
             {
-                last_header = new WikiHeader("main", name, nullptr);
+                last_header = new WikiHeader(anchor, name, nullptr);
                 headers.push_back(last_header);
             }
             else
@@ -127,18 +150,18 @@ std::vector<WikiHeader*> WikiPageLoader::extractHeadersFromHtml(const QString & 
                 int last_level = last_header->level();
                 if (level > last_level)
                 {
-                    last_header = new WikiHeader("child", name, last_header);
+                    last_header = new WikiHeader(anchor, name, last_header);
                 }
                 else if (level == last_level)
                 {
-                    last_header = new WikiHeader("child", name, last_header->getParent());
+                    last_header = new WikiHeader(anchor, name, last_header->getParent());
                 }
                 else
                 {
                     WikiHeader* parent_header = last_header->getParent();
                     while (parent_header->level() >= level)
                         parent_header = parent_header->getParent();
-                    last_header = new WikiHeader("child", name, parent_header);
+                    last_header = new WikiHeader(anchor, name, parent_header);
                 }
             }
         }

@@ -3,7 +3,7 @@
 #include <QtGlobal>
 
 WikiHeader::WikiHeader(QString path, QString name, WikiHeader* parent /*= nullptr*/)
-    : m_path(path)
+    : m_anchor(path)
     , m_name(name)
     , m_parent(parent)
 {
@@ -29,18 +29,6 @@ WikiHeader* WikiHeader::childAt(int row) const
 {
     return m_child_headers[row];
 }
-
-//WikiHeader* WikiHeader::getParentAtLevel() const
-//{
-//    if (m_parent == nullptr)
-//        return nullptr;
-//
-//    Q_ASSERT(m_parent->level() <= level(), "Parent header has to be of a higher level than its child.");
-//
-//
-//
-//    return nullptr;
-//}
 
 int WikiHeader::childCount() const
 {

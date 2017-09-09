@@ -9,10 +9,9 @@ public:
     WikiHeader(QString path, QString name, WikiHeader* parent = nullptr);
     ~WikiHeader();
 
-    QString getPath() const { return m_path; }
+    QString getAnchor() const { return m_anchor; }
     QString getName() const { return m_name; }
     WikiHeader* getParent() const { return m_parent; }
-    //WikiHeader* getParentAtLevel() const;
     const std::vector<WikiHeader*>& getChildren() { return m_child_headers; }
 
     int childCount() const;
@@ -25,7 +24,7 @@ public:
     void setParent(WikiHeader* parent) { m_parent = parent; }
 
 private:
-    QString m_path;
+    QString m_anchor;
     QString m_name;
     WikiHeader* m_parent;
     std::vector<WikiHeader*> m_child_headers; // ownership

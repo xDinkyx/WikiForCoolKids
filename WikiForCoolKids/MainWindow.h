@@ -45,6 +45,8 @@ private:
     void openLink(const QUrl& url);
     void clearNextPages();
 
+    void scrollToHeader(QString headerAnchor);
+
     void finishEdit(bool textChanged);
     void savePage();
 

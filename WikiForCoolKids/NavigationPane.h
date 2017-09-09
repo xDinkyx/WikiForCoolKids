@@ -17,8 +17,13 @@ public:
 
     void updateHeaders(const QString& htmlString);
 
+signals:
+    void headerNavigated(QString anchor);
+
 private:
     void createGUI();
+
+    void headerSelected(const QModelIndex &index);
 
     QTreeView* m_tree_view;
     std::unique_ptr<WikiHeaderListModel> m_model;
