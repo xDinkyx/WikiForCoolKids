@@ -9,6 +9,8 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QTextBrowser>
+#include <QtWidgets/QScrollBar>
+#include <QTextBlock>
 
 #include "WikiEditView.h"
 #include "NavigationPane.h"
@@ -36,6 +38,7 @@ MainWindow::MainWindow(QWidget *parent /*= nullptr*/)
     , m_page_view(nullptr)
     , m_html_browser(nullptr)
     , m_navigation_pane(nullptr)
+    , m_current_line(0)
     , m_html_view(nullptr)
     , m_edit_view(nullptr)
 {
@@ -55,8 +58,9 @@ void MainWindow::openWikiPage(const QString & pageName)
     WikiPageLoader::loadPage(page_file_path, page_markdown, page_html);
     m_edit_view->setText(page_markdown);
     m_html_browser->setHtml(page_html);
-
     m_navigation_pane->updateHeaders(page_html);
+
+    m_pure_html_lines = WikiPageLoader::removeEmptyHtmlLines(page_html);
 
     updateButtonsEnabled();
 }
@@ -137,6 +141,7 @@ QWidget* MainWindow::createHtmlView()
     m_html_browser->setSearchPaths(QStringList() << WIKI_FOLDER_LOCATION);
 
     connect(m_html_browser, &QTextBrowser::anchorClicked, this, &MainWindow::openLink);
+    connect(m_html_browser->verticalScrollBar(), &QScrollBar::valueChanged, this, &MainWindow::updateCurrentHeader);
     loadCSS();
 
     m_navigation_pane = new NavigationPane();
@@ -237,6 +242,42 @@ void MainWindow::clearNextPages()
 void MainWindow::scrollToHeader(QString headerAnchor)
 {
     m_html_browser->scrollToAnchor(headerAnchor);
+}
+
+void MainWindow::updateCurrentHeader(int)
+{
+    QTextCursor cursor = m_html_browser->cursorForPosition(QPoint(0, 0));
+
+    // Go down lines untill we reach cursor line.
+    int current_line = 1;
+    QTextBlock block = cursor.block().previous();
+    while (block.isValid()) 
+    {
+        current_line += block.lineCount();
+        block = block.previous();
+    }
+
+    // Go back up lines untill we reach first header.
+    QString html_header;
+    for (--current_line; current_line >= 0; --current_line)
+    {
+        if (m_pure_html_lines[current_line].startsWith("<h"))
+        {
+            html_header = m_pure_html_lines[current_line];
+            break;
+        }
+    } 
+
+    m_navigation_pane->setCurrentHeaderFromAnchor(WikiPageLoader::extractHtmlNameTag(html_header));
+}
+
+QString MainWindow::getVisibleText(QTextEdit* textEdit)
+{
+    QTextCursor cursor = m_html_browser->cursorForPosition(QPoint(0, 0));
+    QPoint bottom_right(m_html_browser->viewport()->width() - 1, m_html_browser->viewport()->height() - 1);
+    int end_pos = m_html_browser->cursorForPosition(bottom_right).position();
+    cursor.setPosition(end_pos, QTextCursor::KeepAnchor);
+    return cursor.selectedText();
 }
 
 void MainWindow::finishEdit(bool textChanged)

@@ -16,6 +16,11 @@ void WikiHeaderListModel::setData(const std::vector<WikiHeader*>& headers)
         m_top_header->addChild(header);
 }
 
+WikiHeader * WikiHeaderListModel::findHeaderByAnchor(const QString & anchor)
+{
+    return m_top_header->findHeaderByAnchor(anchor);
+}
+
 QVariant WikiHeaderListModel::data(const QModelIndex& index, int role) const
 {
     if (!index.isValid())
@@ -26,6 +31,8 @@ QVariant WikiHeaderListModel::data(const QModelIndex& index, int role) const
     {
         case Qt::DisplayRole:
             return header->getName();
+        case Qt::UserRole:
+            return header->getAnchor();
         default:
             return QVariant();
     }

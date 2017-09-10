@@ -15,6 +15,7 @@ public:
     ~WikiHeaderListModel();
 
     void setData(const std::vector<WikiHeader*>& headers);
+    WikiHeader* findHeaderByAnchor(const QString& anchor);
 
     QVariant data(const QModelIndex& index, int role) const override;
     QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const override;

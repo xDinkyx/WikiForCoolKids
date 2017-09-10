@@ -3,6 +3,7 @@
 #include <QVBoxLayout>
 #include <QTextEdit>
 #include <QPushButton>
+#include <QTextBlock>
 
 WikiEditView::WikiEditView(QWidget *parent /*= nullptr*/)
     : QWidget(parent)
@@ -24,6 +25,12 @@ void WikiEditView::setText(const QString& text)
 QString WikiEditView::getText()
 {
     return m_page_edit->toPlainText();
+}
+
+void WikiEditView::goToLine(int line)
+{
+    QTextCursor cursor(m_page_edit->document()->findBlockByLineNumber(line)); // ln-1 because line number starts from 0
+    m_page_edit->setTextCursor(cursor);
 }
 
 void WikiEditView::setupGUI()

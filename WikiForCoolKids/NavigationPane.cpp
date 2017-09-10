@@ -31,6 +31,17 @@ void NavigationPane::updateHeaders(const QString& htmlString)
     m_tree_view->resizeColumnToContents(0);
 }
 
+void NavigationPane::setCurrentHeaderFromAnchor(const QString& anchor)
+{
+    WikiHeader* anchor_header = m_model->findHeaderByAnchor(anchor);
+    if (anchor_header)
+    {
+        QAbstractItemModel* model = m_tree_view->model();
+        QModelIndexList index = model->match(model->index(0,0), Qt::UserRole, anchor, 1, Qt::MatchRecursive);
+        m_tree_view->selectionModel()->select(index[0], QItemSelectionModel::ClearAndSelect);
+    }
+}
+
 void NavigationPane::createGUI()
 {
     m_tree_view = new QTreeView();

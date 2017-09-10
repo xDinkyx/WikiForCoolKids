@@ -1,7 +1,11 @@
-- Navigation pane updates selection as view scrolls
+FEATURES
+v Navigation pane updates selection as view scrolls
 - Navigation pane highlight entire line
 - Edit opens at same position as html view
 - Search bar
 - Search preview
 - Encrypt files
 - Permissions
+
+BUGS
+- Html headers on line starting with other tag (like </br>) dont get anchors inserted.

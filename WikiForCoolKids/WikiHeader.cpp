@@ -2,6 +2,8 @@
 
 #include <QtGlobal>
 
+#include <QDebug>
+
 WikiHeader::WikiHeader(QString path, QString name, WikiHeader* parent /*= nullptr*/)
     : m_anchor(path)
     , m_name(name)
@@ -28,6 +30,21 @@ void WikiHeader::addChild(WikiHeader* header)
 WikiHeader* WikiHeader::childAt(int row) const
 {
     return m_child_headers[row];
+}
+
+WikiHeader* WikiHeader::findHeaderByAnchor(const QString& anchor)
+{
+    if (m_anchor == anchor)
+        return this;
+
+    for (WikiHeader* child : m_child_headers)
+    {
+        WikiHeader* anchor_header = child->findHeaderByAnchor(anchor);
+        if (anchor_header != nullptr)
+            return anchor_header;
+    }
+
+    return nullptr;
 }
 
 int WikiHeader::childCount() const

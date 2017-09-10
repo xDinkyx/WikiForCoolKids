@@ -17,6 +17,8 @@ public:
 
     void updateHeaders(const QString& htmlString);
 
+    void setCurrentHeaderFromAnchor(const QString& anchor);
+
 signals:
     void headerNavigated(QString anchor);
 

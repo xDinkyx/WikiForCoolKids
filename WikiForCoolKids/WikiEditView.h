@@ -16,6 +16,8 @@ public:
     void setText(const QString& text);
     QString getText();
 
+    void goToLine(int line);
+
 signals:
     void editingFinished(bool textChanged);
 

@@ -21,18 +21,9 @@ namespace
 
     QString extractHtmlElementContent(const QString& htmlElement)
     {
-        int content_start = htmlElement.indexOf('>') + 1;
+        int content_start = htmlElement.indexOf('>', htmlElement.indexOf("<a")) + 1;
         int content_length = htmlElement.length() - QString("</h0>").length() - content_start;
         return htmlElement.mid(content_start, content_length);
-    }
-
-    QString extractHtmlNameTag(const QString& htmlElement)
-    {
-        QString tag = "name";
-        int name_start = htmlElement.indexOf(tag) + tag.length() + 2;
-        int name_length = htmlElement.indexOf('"', name_start) - name_start;
-        QString ret = htmlElement.mid(name_start, name_length);
-        return htmlElement.mid(name_start, name_length);
     }
 }
 
@@ -121,8 +112,8 @@ void WikiPageLoader::insertHtmlAnchors(QString& htmlLine, int lineNumber)
 {
     if (htmlLine.startsWith("<h"))
     {
-        QString name = extractHtmlElementContent(htmlLine);
-        htmlLine.append(QString("\n<a name=\"#headerAnchor_%1\" />").arg(lineNumber));
+        int index = htmlLine.indexOf('>') + 1;
+        htmlLine.insert(index, QString("<a name=\"#headerAnchor_%1\" />").arg(lineNumber));
     }
 }
 
@@ -132,13 +123,12 @@ std::vector<WikiHeader*> WikiPageLoader::extractHeadersFromHtml(const QString& h
     WikiHeader* last_header;
 
     QStringList html_lines = htmlString.split('\n');
-    for (int i(0); i < html_lines.size(); ++i)
+    for (const QString& line : html_lines)
     {
-        QString line = html_lines[i];
         if (line.startsWith("<h"))
         {
             int level = extractHeaderLevel(line);
-            QString anchor = extractHtmlNameTag(html_lines[++i]);
+            QString anchor = extractHtmlNameTag(line);
             QString name = extractHtmlElementContent(line);
             if (level == 1)
             {
@@ -168,4 +158,21 @@ std::vector<WikiHeader*> WikiPageLoader::extractHeadersFromHtml(const QString& h
     }
 
     return headers;
+}
+
+QStringList WikiPageLoader::removeEmptyHtmlLines(const QString & htmlString)
+{
+    auto html_lines = htmlString.split('\n');
+    html_lines.removeAll("");
+    html_lines.removeAll("<ul>");
+    html_lines.removeAll("</ul>");
+    return html_lines;
+}
+
+QString WikiPageLoader::extractHtmlNameTag(const QString & htmlElement)
+{
+    QString tag = "name";
+    int name_start = htmlElement.indexOf(tag) + tag.length() + 2;
+    int name_length = htmlElement.indexOf('"', name_start) - name_start;
+    return htmlElement.mid(name_start, name_length);
 }

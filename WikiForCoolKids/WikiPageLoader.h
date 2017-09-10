@@ -18,6 +18,9 @@ public:
     // Takes html and extracts headers.
     static std::vector<WikiHeader*> extractHeadersFromHtml(const QString& htmlString);
 
+    static QStringList removeEmptyHtmlLines(const QString& htmlString);
+    static QString extractHtmlNameTag(const QString& htmlElement);
+
 private:
     // Open file and read in contents.
     static bool readWikiFile(const QString& filePath, QString& fileString);

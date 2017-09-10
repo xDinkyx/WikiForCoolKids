@@ -23,6 +23,8 @@ public:
 
     void setParent(WikiHeader* parent) { m_parent = parent; }
 
+    WikiHeader* findHeaderByAnchor(const QString& anchor);
+
 private:
     QString m_anchor;
     QString m_name;
