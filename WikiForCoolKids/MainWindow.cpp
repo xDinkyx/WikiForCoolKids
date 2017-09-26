@@ -288,6 +288,7 @@ void MainWindow::finishEdit(bool textChanged)
     switchToHtmlView();
 }
 
+#include "WikiCryptor.h"
 void MainWindow::savePage()
 {
     QString page_file_path = WIKI_FOLDER_LOCATION + *m_current_page + WIKI_FILE_EXTENSION;
@@ -297,6 +298,15 @@ void MainWindow::savePage()
     {
         QTextStream stream(&file);
         stream << m_edit_view->getText();
+    }
+
+    QFile file_encrypt("C:/Users/Dimitri/Documents/test.wfck");
+    if (file_encrypt.open(QIODevice::WriteOnly))
+    {
+        QTextStream stream(&file_encrypt);
+        QString encrypted = encryptDecrypt(m_edit_view->getText());
+        stream << encrypted;
+        stream << encryptDecrypt(encrypted);
     }
 }
 
