@@ -8,5 +8,6 @@
         <file alias="next">Icons/next_arrow.png</file>
         <file alias="closed">Icons/closed_arrow.png</file>
         <file alias="open">Icons/open_arrow.png</file>
+        <file alias="search">Icons/magnify.png</file>
     </qresource>
 </RCC>

@@ -13,6 +13,7 @@ class QTextEdit;
 class QTextBrowser;
 class NavigationPane;
 class WikiEditView;
+class SearchBox;
 
 // Typedefs
 typedef std::list<QString> WikiPageList;
@@ -28,7 +29,7 @@ public:
     void openWikiPage(const QString& pageName);
 
 private:
-    void setupGUI();
+    void setupGui();
     void loadStyle();
     void loadCSS();
     QWidget* createToolBar();
@@ -71,4 +72,6 @@ private:
     int m_current_line;
     QWidget* m_html_view;
     WikiEditView* m_edit_view;
+
+    SearchBox* m_search_box;
 };

@@ -11,7 +11,7 @@ WikiEditView::WikiEditView(QWidget *parent /*= nullptr*/)
     , m_finish_button(nullptr)
 {
     setObjectName("WikiEditView");
-    setupGUI();
+    setupGui();
 }
 
 WikiEditView::~WikiEditView() = default;
@@ -33,7 +33,7 @@ void WikiEditView::goToLine(int line)
     m_page_edit->setTextCursor(cursor);
 }
 
-void WikiEditView::setupGUI()
+void WikiEditView::setupGui()
 {
     m_page_edit = new QTextEdit();
     connect(m_page_edit, &QTextEdit::textChanged, this, &WikiEditView::updateFinishButtonText);

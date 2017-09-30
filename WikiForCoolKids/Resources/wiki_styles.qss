@@ -63,6 +63,29 @@ QPushButton#SettingsButton
     background-image: url(:/Icons/options);
 }
 
+QLineEdit#SearchInput
+{
+    border: 1px solid grey;
+    font-family: "Palatino Linotype";
+    font-size: 14pt;
+    color: grey;
+}
+QLineEdit#SearchInput:focus
+{
+    color: black;
+}
+QPushButton#SearchButton
+{
+    min-width:  40px;
+    max-width:  40px;
+    min-height: 40px;
+    max-height: 40px;
+
+    background-image: url(:/Icons/search);
+    background-position: center;
+    background-repeat: none;
+}
+
 /* NagivationPane */
 /* ------------------------------------------ */
 QFrame#NagivationPane

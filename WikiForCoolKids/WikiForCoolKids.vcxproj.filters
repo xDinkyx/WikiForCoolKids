@@ -99,6 +99,15 @@
     <ClCompile Include="WikiHeader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_SearchBox.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_SearchBox.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="SearchBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="WikiForCoolKids.qrc">
@@ -117,6 +126,9 @@
       <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="WikiHeaderListModel.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="SearchBox.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>
@@ -138,6 +150,9 @@
     </Image>
     <Image Include="Resources\WikiForCoolKids.ico">
       <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Icons\magnify.png">
+      <Filter>Resource Files\Icons</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>

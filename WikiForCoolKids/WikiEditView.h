@@ -22,7 +22,7 @@ signals:
     void editingFinished(bool textChanged);
 
 private:
-    void setupGUI();
+    void setupGui();
     void updateFinishButtonText();
     void finishEditing();
 

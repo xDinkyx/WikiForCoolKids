@@ -15,6 +15,7 @@
 
 #include "WikiEditView.h"
 #include "NavigationPane.h"
+#include "SearchBox.h"
 
 #include <QFile>
 
@@ -42,10 +43,11 @@ MainWindow::MainWindow(QWidget *parent /*= nullptr*/)
     , m_current_line(0)
     , m_html_view(nullptr)
     , m_edit_view(nullptr)
+    , m_search_box(nullptr)
 {
     setObjectName("WikiMainWindow");
     setMinimumSize(600, 800);
-    setupGUI();
+    setupGui();
 
     goToHomePage();
 }
@@ -66,7 +68,7 @@ void MainWindow::openWikiPage(const QString & pageName)
     updateButtonsEnabled();
 }
 
-void MainWindow::setupGUI()
+void MainWindow::setupGui()
 {
     setMinimumSize(900, 600);
     loadStyle();
@@ -100,11 +102,14 @@ QWidget* MainWindow::createToolBar()
     tool_bar_layout->setContentsMargins(0, 0, 0, 0);
     tool_bar_layout->setSpacing(0);
 
+    m_search_box = new SearchBox();
+
     tool_bar_layout->addWidget(m_back_button, 0, Qt::AlignLeft);
     tool_bar_layout->addWidget(m_home_button, 0, Qt::AlignLeft);
     tool_bar_layout->addWidget(m_forward_button, 0, Qt::AlignLeft);
     tool_bar_layout->addWidget(m_edit_button, 0, Qt::AlignLeft);
     tool_bar_layout->addWidget(settings_button, 1, Qt::AlignLeft);
+    tool_bar_layout->addWidget(m_search_box, 0, Qt::AlignRight);
 
 #ifdef _DEBUG
     // Buttons for testing style file changes
