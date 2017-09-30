@@ -2,14 +2,18 @@
 
 #include <QString>
 
-QString encryptDecrypt(QString toEncrypt) 
+namespace WikiCryptor
 {
-    char key[]{'w', 'f', 'c', 'k'}; //Any chars will work
-    std::string original = toEncrypt.toStdString();
-    std::string output = toEncrypt.toStdString();
+    static QString encryptDecrypt(const QString& toEncrypt)
+    {
+        wchar_t key[]{'w', 'f', 'c', 'k'}; //Any chars will work
+        std::wstring original = toEncrypt.toStdWString();
+        std::wstring output;
+        output.resize(original.size());
 
-    for (int i = 0; i < original.size(); i++)
-        output[i] = original[i] ^ key[i % (sizeof(key) / sizeof(char))];
+        for (int i = 0; i < original.size(); i++)
+            output[i] = original[i] ^ key[i % (sizeof(key) / sizeof(wchar_t))];
 
-    return QString::fromStdString(output);
-}
+        return QString::fromStdWString(output);
+    }
+};
