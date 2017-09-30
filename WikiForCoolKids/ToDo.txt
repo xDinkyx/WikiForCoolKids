@@ -4,8 +4,9 @@ v Navigation pane updates selection as view scrolls
 - Edit opens at same position as html view
 - Search bar
 - Search preview
-- Encrypt files
+v Encrypt files
 - Permissions
 
 BUGS
 - Html headers on line starting with other tag (like </br>) dont get anchors inserted.
+v Some unicode characters aren't loaded properly into QString.

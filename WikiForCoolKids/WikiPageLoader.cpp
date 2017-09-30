@@ -8,6 +8,7 @@
 #include <QFileInfo>
 
 #include "WikiHeader.h"
+#include "WikiCryptor.h"
 
 #include <QDebug>
 
@@ -66,9 +67,7 @@ bool WikiPageLoader::readWikiFile(const QString& filePath, QString& fileString)
     if (file.open(QIODevice::ReadOnly))
     {
         QTextStream in(&file);
-        fileString = in.readAll();
-        file.close();
-
+        fileString = WikiCryptor::encryptDecrypt(in.readAll());
         return true;
     }
     return false;

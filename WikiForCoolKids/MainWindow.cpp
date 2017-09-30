@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 
 #include "WikiPageLoader.h"
+#include "WikiCryptor.h"
 
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QHBoxLayout>
@@ -22,7 +23,7 @@
 
 namespace
 {
-    const QString WIKI_FOLDER_LOCATION("C:/Users/Dimitri/Dropbox/ErdaWiki/");
+    const QString WIKI_FOLDER_LOCATION("C:/Users/Dimitri/Documents/ErdaWiki_Test/");
     const QString WIKI_FILE_EXTENSION(".txt");
 
     const QString HOME_PAGE("Home");
@@ -288,7 +289,6 @@ void MainWindow::finishEdit(bool textChanged)
     switchToHtmlView();
 }
 
-#include "WikiCryptor.h"
 void MainWindow::savePage()
 {
     QString page_file_path = WIKI_FOLDER_LOCATION + *m_current_page + WIKI_FILE_EXTENSION;
@@ -297,16 +297,7 @@ void MainWindow::savePage()
     if (file.open(QIODevice::WriteOnly))
     {
         QTextStream stream(&file);
-        stream << m_edit_view->getText();
-    }
-
-    QFile file_encrypt("C:/Users/Dimitri/Documents/test.wfck");
-    if (file_encrypt.open(QIODevice::WriteOnly))
-    {
-        QTextStream stream(&file_encrypt);
-        QString encrypted = encryptDecrypt(m_edit_view->getText());
-        stream << encrypted;
-        stream << encryptDecrypt(encrypted);
+        stream << WikiCryptor::encryptDecrypt(m_edit_view->getText());
     }
 }
 
