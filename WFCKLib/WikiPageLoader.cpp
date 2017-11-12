@@ -38,12 +38,15 @@ bool WikiPageLoader::loadPage(const QString& filePath, QString& outMarkdown, QSt
     }
 
     QString wiki_file_string;
-    readWikiFile(filePath, wiki_file_string);
+    if (!readWikiFile(filePath, wiki_file_string))
+        return false;
 
-    parseWikiMarkdown(wiki_file_string, outMarkdown);
+    if (!parseWikiMarkdown(wiki_file_string, outMarkdown))
+        return false;
 
     markdown::Document markdown_document;
-    markdown_document.read(outMarkdown.toStdString());
+    if (!markdown_document.read(outMarkdown.toStdString()))
+        return false;
 
     std::stringstream output_string_stream;
     markdown_document.write(output_string_stream);
@@ -52,6 +55,15 @@ bool WikiPageLoader::loadPage(const QString& filePath, QString& outMarkdown, QSt
     formatWikiHtml(outHtml);
 
     return true;
+}
+
+bool WikiPageLoader::loadPageMarkdown(const QString & filePath, QString& outMarkdown)
+{
+    QString wiki_file_string;
+    if (!readWikiFile(filePath, wiki_file_string))
+        return false;
+
+    return parseWikiMarkdown(wiki_file_string, outMarkdown);
 }
 
 bool WikiPageLoader::parseWikiMarkdown(const QString& fileString, QString& out_markdown)

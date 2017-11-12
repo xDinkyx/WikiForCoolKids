@@ -149,9 +149,6 @@
     <ResourceCompile Include="WikiForCoolKids.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="WikiHeader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="defines.h">
       <Filter>Header Files</Filter>
     </ClInclude>

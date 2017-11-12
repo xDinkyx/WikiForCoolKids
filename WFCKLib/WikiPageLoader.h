@@ -14,8 +14,8 @@ class WFCKLIB_EXPORT WikiPageLoader
 public:
     // Read file at path and fill in markdown and html string.
     static bool loadPage(const QString& filePath, QString& outMarkdown, QString& outHtml);
-    // Take entire file string and extract the markdown string.
-    static bool parseWikiMarkdown(const QString& fileString, QString& outMarkdown);
+    // Read file and get markdown text only.
+    static bool loadPageMarkdown(const QString& filePath, QString& outMarkdown);
 
     // Takes html and extracts headers.
     static std::vector<WikiHeader*> extractHeadersFromHtml(const QString& htmlString);
@@ -26,6 +26,9 @@ public:
 private:
     // Open file and read in contents.
     static bool readWikiFile(const QString& filePath, QString& fileString);
+
+    // Take entire file string and extract the markdown string.
+    static bool parseWikiMarkdown(const QString& fileString, QString& outMarkdown);
 
     // Takes html string and adds in missing parts.
     static void formatWikiHtml(QString& htmlString);
