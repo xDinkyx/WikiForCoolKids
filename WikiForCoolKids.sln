@@ -4,6 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WikiForCoolKids", "WikiForCoolKids\WikiForCoolKids.vcxproj", "{B12702AD-ABFB-343A-A199-8E24837244A3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0CC22E07-8D95-4130-9C3B-8A55E97BBA6D} = {0CC22E07-8D95-4130-9C3B-8A55E97BBA6D}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WFCKLib", "WFCKLib\WFCKLib.vcxproj", "{0CC22E07-8D95-4130-9C3B-8A55E97BBA6D}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WikiTool", "WikiTool\WikiTool.vcxproj", "{765C1E3F-D18D-48E7-8980-0E70865C8ED1}"
 EndProject
@@ -17,6 +22,10 @@ Global
 		{B12702AD-ABFB-343A-A199-8E24837244A3}.Debug|x64.Build.0 = Debug|x64
 		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release|x64.ActiveCfg = Release|x64
 		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release|x64.Build.0 = Release|x64
+		{0CC22E07-8D95-4130-9C3B-8A55E97BBA6D}.Debug|x64.ActiveCfg = Debug|x64
+		{0CC22E07-8D95-4130-9C3B-8A55E97BBA6D}.Debug|x64.Build.0 = Debug|x64
+		{0CC22E07-8D95-4130-9C3B-8A55E97BBA6D}.Release|x64.ActiveCfg = Release|x64
+		{0CC22E07-8D95-4130-9C3B-8A55E97BBA6D}.Release|x64.Build.0 = Release|x64
 		{765C1E3F-D18D-48E7-8980-0E70865C8ED1}.Debug|x64.ActiveCfg = Debug|x64
 		{765C1E3F-D18D-48E7-8980-0E70865C8ED1}.Debug|x64.Build.0 = Debug|x64
 		{765C1E3F-D18D-48E7-8980-0E70865C8ED1}.Release|x64.ActiveCfg = Release|x64

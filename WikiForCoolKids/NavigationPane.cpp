@@ -2,7 +2,7 @@
 
 #include "WikiHeaderListModel.h"
 
-#include "WikiPageLoader.h"
+#include "../WFCKLib/WikiPageLoader.h"
 
 #include <QFrame>
 #include <QVBoxLayout>

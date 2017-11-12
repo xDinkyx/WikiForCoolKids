@@ -37,9 +37,6 @@
     <Filter Include="Resource Files\Icons">
       <UniqueIdentifier>{932da9c6-5c60-467b-a4e8-3b61b7739a52}</UniqueIdentifier>
     </Filter>
-    <Filter Include="cpp-markdown">
-      <UniqueIdentifier>{19f56f5b-10e1-4478-8860-fd86a5985b3c}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -59,15 +56,6 @@
     </ClCompile>
     <ClCompile Include="GeneratedFiles\qrc_wiki_icons.cpp">
       <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp-markdown\markdown.cpp">
-      <Filter>cpp-markdown</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp-markdown\markdown-tokens.cpp">
-      <Filter>cpp-markdown</Filter>
-    </ClCompile>
-    <ClCompile Include="WikiPageLoader.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_WikiEditView.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -94,9 +82,6 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="WikiHeaderListModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WikiHeader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_SearchBox.cpp">
@@ -164,19 +149,10 @@
     <ResourceCompile Include="WikiForCoolKids.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\cpp-markdown\markdown.h">
-      <Filter>cpp-markdown</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cpp-markdown\markdown-tokens.h">
-      <Filter>cpp-markdown</Filter>
-    </ClInclude>
-    <ClInclude Include="WikiPageLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="WikiHeader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WikiCryptor.h">
+    <ClInclude Include="defines.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

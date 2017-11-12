@@ -1,7 +1,8 @@
 #include "MainWindow.h"
 
-#include "WikiPageLoader.h"
-#include "WikiCryptor.h"
+#include "../WFCKLib/WikiPageLoader.h"
+#include "../WFCKLib/WikiCryptor.h"
+#include "defines.h"
 
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QHBoxLayout>
@@ -20,16 +21,6 @@
 #include <QFile>
 
 #include <QDebug>
-
-
-namespace
-{
-    const QString WIKI_FOLDER_LOCATION("C:/Users/Dimitri/Documents/ErdaWiki_Test/");
-    const QString WIKI_FILE_EXTENSION(".txt");
-
-    const QString HOME_PAGE("Home");
-    const QString CSS_FILE_NAME("style.css");
-}
 
 MainWindow::MainWindow(QWidget *parent /*= nullptr*/)
     : QMainWindow(parent)
@@ -56,7 +47,7 @@ MainWindow::~MainWindow() = default;
 
 void MainWindow::openWikiPage(const QString & pageName)
 {
-    QString page_file_path = WIKI_FOLDER_LOCATION + pageName + WIKI_FILE_EXTENSION;
+    QString page_file_path = WikiSettings::WIKI_FOLDER_LOCATION + pageName + WikiSettings::WIKI_FILE_EXTENSION;
     QString page_markdown, page_html;
     WikiPageLoader::loadPage(page_file_path, page_markdown, page_html);
     m_edit_view->setText(page_markdown);
@@ -144,7 +135,7 @@ QWidget* MainWindow::createHtmlView()
     m_html_browser = new QTextBrowser();
     m_html_browser->setOpenLinks(false);
     m_html_browser->setOpenExternalLinks(false);
-    m_html_browser->setSearchPaths(QStringList() << WIKI_FOLDER_LOCATION);
+    m_html_browser->setSearchPaths(QStringList() << WikiSettings::WIKI_FOLDER_LOCATION);
 
     connect(m_html_browser, &QTextBrowser::anchorClicked, this, &MainWindow::openLink);
     connect(m_html_browser->verticalScrollBar(), &QScrollBar::valueChanged, this, &MainWindow::updateCurrentHeader);
@@ -188,7 +179,7 @@ void MainWindow::switchToHtmlView()
 void MainWindow::updateButtonsEnabled()
 {
     m_back_button->setEnabled(m_current_page != m_visited_pages.begin());
-    m_home_button->setEnabled(*m_current_page != HOME_PAGE);
+    m_home_button->setEnabled(*m_current_page != WikiSettings::HOME_PAGE);
     m_forward_button->setEnabled(m_current_page != --m_visited_pages.end());
     m_edit_button->setEnabled(m_page_view->currentWidget() != m_edit_view);
 }
@@ -207,7 +198,7 @@ void MainWindow::loadStyle()
 
 void MainWindow::goToHomePage()
 {
-    openLink(HOME_PAGE);
+    openLink(WikiSettings::HOME_PAGE);
 }
 
 void MainWindow::goToNextPage()
@@ -296,7 +287,7 @@ void MainWindow::finishEdit(bool textChanged)
 
 void MainWindow::savePage()
 {
-    QString page_file_path = WIKI_FOLDER_LOCATION + *m_current_page + WIKI_FILE_EXTENSION;
+    QString page_file_path = WikiSettings::WIKI_FOLDER_LOCATION + *m_current_page + WikiSettings::WIKI_FILE_EXTENSION;
 
     QFile file(page_file_path);
     if (file.open(QIODevice::WriteOnly))
@@ -308,7 +299,7 @@ void MainWindow::savePage()
 
 void MainWindow::loadCSS()
 {
-    QString style_file_path = WIKI_FOLDER_LOCATION + CSS_FILE_NAME;
+    QString style_file_path = WikiSettings::WIKI_FOLDER_LOCATION + WikiSettings::CSS_FILE_NAME;
 
     QFile file(style_file_path);
     if (file.open(QIODevice::ReadOnly))

@@ -2,7 +2,7 @@
 
 #include <QAbstractItemModel>
 
-#include "WikiHeader.h"
+#include "../WFCKLib/WikiHeader.h"
 #include <vector>
 #include <memory>
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "wfcklib_global.h"
+
 #include <QString>
 #include <string>
 
@@ -7,7 +9,7 @@
 
 class WikiHeader;
 
-class WikiPageLoader
+class WFCKLIB_EXPORT WikiPageLoader
 {
 public:
     // Read file at path and fill in markdown and html string.

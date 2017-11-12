@@ -1,9 +1,11 @@
 #pragma once
 
+#include "wfcklib_global.h"
+
 #include <QString>
 #include <vector>
 
-class WikiHeader
+class WFCKLIB_EXPORT WikiHeader
 {
 public:
     WikiHeader(QString path, QString name, WikiHeader* parent = nullptr);

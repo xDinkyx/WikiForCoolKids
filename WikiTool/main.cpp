@@ -1,6 +1,7 @@
 #include <QtCore/QCoreApplication>
 
-#include "../WikiForCoolKids/WikiCryptor.h"
+#include "../WFCKLib/WikiCryptor.h"
+#include "../WFCKLib/WikiSearch.h"
 
 #include <QDirIterator>
 #include <QFile>
@@ -121,6 +122,20 @@ void encryptThenDecryptFolder()
 //    print("-----------------------------");
 //}
 
+//void generateSearchFile()
+//{
+//    print("-----------------------------");
+//    print("Generating search file.");
+//    print("---");
+//
+//    auto headers = WikiSearch::getWikiFileNames(WIKI_FOLDER_LOCATION);
+//    print(headers);
+//
+//    print("---");
+//    print("Search file generated.");
+//    print("-----------------------------");
+//}
+
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
@@ -131,6 +146,7 @@ int main(int argc, char *argv[])
     print("1 - Encrypt/decrypt wiki folder.");
     print("2 - Encrypt and then decrypt wiki folder.");
     //print("3 - Fix all known issues in wiki files.");
+    //print("4 - Generate indexed search file.");
 
     QString input = cin.readLine();
 
@@ -140,6 +156,8 @@ int main(int argc, char *argv[])
         encryptThenDecryptFolder();
     //else if (input == "3")
     //    fixErrorsInWikiFiles();
+    //else if (input == "4")
+    //    generateSearchFile();
 
     return a.exec();
 }

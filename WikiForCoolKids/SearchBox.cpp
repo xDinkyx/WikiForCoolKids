@@ -1,5 +1,7 @@
 #include "SearchBox.h"
 
+#include "../WFCKLib/WikiSearch.h"
+
 #include <QLineEdit>
 #include <QHBoxLayout>
 #include <QPushButton>
@@ -59,6 +61,8 @@ void SearchBox::setInitialText()
 void SearchBox::search()
 {
     qDebug() << "Searching for: " << m_search_input->text();
+
+    //WikiSearch::getWikiFileNames();
 }
 
 bool SearchBox::eventFilter(QObject* object, QEvent* event)
