@@ -10,3 +10,4 @@ v Encrypt files
 BUGS
 - Html headers on line starting with other tag (like </br>) dont get anchors inserted.
 v Some unicode characters aren't loaded properly into QString.
+- GUI lag because search emits too many signals.

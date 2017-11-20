@@ -30,7 +30,7 @@ private:
 
     bool eventFilter(QObject* object, QEvent* event) override;
 
-    void displaySearchResult(const WikiSearchResult& result);
+    void displaySearchResult(const QList<WikiSearchResult*> intermediateResults);
 
     QLineEdit* m_search_input;
 

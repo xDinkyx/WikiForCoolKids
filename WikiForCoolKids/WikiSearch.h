@@ -1,31 +1,38 @@
 #pragma once
 
-#include "wfcklib_global.h"
-
 #include <QStringList>
 
 #include <QThread>
 
-class WFCKLIB_EXPORT WikiSearch
+class QTimer;
+
+class WikiSearch
 {
 public:
     static QStringList getWikiPagesContaining(const QString& searchString, const QString& wikiFolder);
     static QStringList getWikiFileNames(const QString& folder);
 };
 
-struct WikiSearchResult 
-{    QString m_wiki_page;
+struct WikiSearchResult
+{    
+    QString m_wiki_page;
     int m_index{0};
 };
-Q_DECLARE_METATYPE(WikiSearchResult)
+typedef QList<WikiSearchResult*> WikiSearchResultList;
+Q_DECLARE_METATYPE(WikiSearchResultList)
 
 class WikiSearcher : public QObject
 {
     Q_OBJECT;
 
 public:
+    WikiSearcher(QObject* parent = nullptr);
+
     void startSearching(const QString& searchString, const QString& searchFolder);
 
 signals:
-    void resultReady(const WikiSearchResult& result);
+    void resultsReady(const WikiSearchResultList& intermediateResults);
+
+private:
+    QTimer* m_timer;
 };

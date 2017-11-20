@@ -1,10 +1,12 @@
 #include "WikiSearch.h"
 
-#include "WikiPageLoader.h"
+#include "../WFCKLib/WikiPageLoader.h"
 
-#include "../WikiForCoolKids/defines.h"
+#include "defines.h"
 
 #include <QDirIterator>
+
+#include <QTimer>
 
 #include <QDebug>
 
@@ -38,18 +40,32 @@ QStringList WikiSearch::getWikiFileNames(const QString& folder)
     return fileNames;
 }
 
+WikiSearcher::WikiSearcher(QObject* parent /*= nullptr*/)
+    : QObject(parent)
+    , m_timer(new QTimer(this))
+{
+}
+
 void WikiSearcher::startSearching(const QString& searchString, const QString& searchFolder)
 {
     QStringList all_pages = WikiSearch::getWikiFileNames(searchFolder);
+    QList<WikiSearchResult*> search_result_list;
+
+    m_timer->start(100);
+    connect(m_timer, &QTimer::timeout, [this, &search_result_list]() 
+    { 
+        emit resultsReady(search_result_list); 
+        search_result_list.clear();
+    });
 
     // Search for string in page title.
     for (const QString& page : all_pages)
     {
         if (page.contains(searchString, Qt::CaseInsensitive))
         {
-            WikiSearchResult result;
-            result.m_wiki_page = page;
-            emit resultReady(result);
+            WikiSearchResult* result = new WikiSearchResult();
+            result->m_wiki_page = page;
+            search_result_list.push_back(result);
         }
     }
 
@@ -63,10 +79,10 @@ void WikiSearcher::startSearching(const QString& searchString, const QString& se
             int found_index = page_markdown.indexOf(searchString, Qt::CaseInsensitive);
             while (found_index != -1)
             {
-                WikiSearchResult result;
-                result.m_wiki_page = page;
-                result.m_index = found_index;
-                emit resultReady(result);
+                WikiSearchResult* result = new WikiSearchResult();
+                result->m_wiki_page = page;
+                result->m_index = found_index;
+                search_result_list.push_back(result);
 
                 found_index = page_markdown.indexOf(searchString, found_index + 1, Qt::CaseInsensitive);
             }
@@ -74,4 +90,7 @@ void WikiSearcher::startSearching(const QString& searchString, const QString& se
         else
             qDebug() << "Error loading page markdown of " << page;
     }
+
+    m_timer->stop();
+    emit resultsReady(search_result_list);
 }
