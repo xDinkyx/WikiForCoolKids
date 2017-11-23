@@ -1,6 +1,6 @@
 #include "SearchBox.h"
 
-#include "WikiSearch.h"
+#include "../WFCKLib/WikiSearch.h"
 
 #include "defines.h"
 
@@ -29,13 +29,11 @@ SearchBox::SearchBox(QWidget* parent /*= nullptr*/)
     m_search_input->installEventFilter(this);
 
     // Init search thread
-    qRegisterMetaType<WikiSearchResult>("WikiSearchResult");
-
     m_searcher->moveToThread(&m_search_thread);
 
     connect(&m_search_thread, &QThread::finished, m_searcher.get(), &QObject::deleteLater);
     connect(this, &SearchBox::startSearch, m_searcher.get(), &WikiSearcher::startSearching);
-    connect(m_searcher.get(), &WikiSearcher::resultsReady, this, &SearchBox::displaySearchResult);
+    connect(m_searcher.get(), &WikiSearcher::resultReady, this, &SearchBox::displaySearchResult);
 
     m_search_thread.start();
 }
@@ -96,9 +94,9 @@ void SearchBox::search()
     startSearch(m_search_input->text(), WikiSettings::WIKI_FOLDER_LOCATION);
 }
 
-void SearchBox::displaySearchResult(const QList<WikiSearchResult*> intermediateResults)
+void SearchBox::displaySearchResult(const QStringList& results)
 {
         qDebug() << "---Search result---";
-        for(WikiSearchResult* result : intermediateResults)
-            qDebug() << result->m_wiki_page << " " << result->m_index;
+        for(const QString& result : results)
+            qDebug() << result;
 }

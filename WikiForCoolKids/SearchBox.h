@@ -2,11 +2,11 @@
 
 #include <QWidget>
 #include <QThread>
+#include <QStringList>
 
 #include <memory>
 
 class QLineEdit;
-class WikiSearchResult;
 class WikiSearcher;
 
 class SearchBox : public QWidget
@@ -30,7 +30,7 @@ private:
 
     bool eventFilter(QObject* object, QEvent* event) override;
 
-    void displaySearchResult(const QList<WikiSearchResult*> intermediateResults);
+    void displaySearchResult(const QStringList& results);
 
     QLineEdit* m_search_input;
 

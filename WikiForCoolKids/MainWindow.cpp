@@ -299,7 +299,7 @@ void MainWindow::savePage()
 
 void MainWindow::loadCSS()
 {
-    QString style_file_path = WikiSettings::WIKI_FOLDER_LOCATION + WikiSettings::CSS_FILE_NAME;
+    QString style_file_path = ":/Styles/Resources/phb_style.css";
 
     QFile file(style_file_path);
     if (file.open(QIODevice::ReadOnly))
@@ -312,5 +312,9 @@ void MainWindow::loadCSS()
         m_html_browser->document()->setDefaultStyleSheet(css_string);
 
         file.close();
+    }
+    else
+    {
+        qWarning() << "Could not open css file " << style_file_path;
     }
 }

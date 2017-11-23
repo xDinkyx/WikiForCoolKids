@@ -2,7 +2,7 @@
 
 #include "../WFCKLib/WikiPageLoader.h"
 
-#include "defines.h"
+#include "../WikiForCoolKids/defines.h"
 
 #include <QDirIterator>
 
@@ -49,13 +49,13 @@ WikiSearcher::WikiSearcher(QObject* parent /*= nullptr*/)
 void WikiSearcher::startSearching(const QString& searchString, const QString& searchFolder)
 {
     QStringList all_pages = WikiSearch::getWikiFileNames(searchFolder);
-    QList<WikiSearchResult*> search_result_list;
+    QStringList search_results; 
 
     m_timer->start(100);
-    connect(m_timer, &QTimer::timeout, [this, &search_result_list]() 
+    connect(m_timer, &QTimer::timeout, [this, &search_results]() 
     { 
-        emit resultsReady(search_result_list); 
-        search_result_list.clear();
+        emit resultReady(search_results);
+        search_results.clear();
     });
 
     // Search for string in page title.
@@ -63,9 +63,7 @@ void WikiSearcher::startSearching(const QString& searchString, const QString& se
     {
         if (page.contains(searchString, Qt::CaseInsensitive))
         {
-            WikiSearchResult* result = new WikiSearchResult();
-            result->m_wiki_page = page;
-            search_result_list.push_back(result);
+            search_results.push_back(page);
         }
     }
 
@@ -79,10 +77,7 @@ void WikiSearcher::startSearching(const QString& searchString, const QString& se
             int found_index = page_markdown.indexOf(searchString, Qt::CaseInsensitive);
             while (found_index != -1)
             {
-                WikiSearchResult* result = new WikiSearchResult();
-                result->m_wiki_page = page;
-                result->m_index = found_index;
-                search_result_list.push_back(result);
+                search_results.push_back(page + "|i" + found_index);
 
                 found_index = page_markdown.indexOf(searchString, found_index + 1, Qt::CaseInsensitive);
             }
@@ -92,5 +87,5 @@ void WikiSearcher::startSearching(const QString& searchString, const QString& se
     }
 
     m_timer->stop();
-    emit resultsReady(search_result_list);
+    emit resultReady(search_results);
 }
